@@ -1,0 +1,437 @@
+﻿set mysql_debug 1
+set mysql_debug_output "console"
+set mysql_slow_query_warning 200
+
+# Only change the IP if you're using a server with multiple network interfaces, otherwise change the port only.
+endpoint_add_tcp "0.0.0.0:30120"
+endpoint_add_udp "0.0.0.0:30120"
+
+set mysql_connection_string "server=localhost;database=essentialmode;userid=root;password:;"
+set es_enableCustomData 1
+
+# Add system admins
+add_ace group.admin command allow # allow all commands
+add_ace group.admin command.quit deny # but don't allow quit
+add_ace group.admin tigoanticheat.bypass allow
+add_ace resource.essentialmode command.add_ace allow
+add_ace resource.essentialmode command.add_principal allow
+add_ace resource.essentialmode command.sets allow
+add_principal identifier.steam:11000010a5b6bd1 group.admin # HOHOHIHE
+add_principal identifier.steam:11000010938d8f1 group.admin # Sultan
+add_principal identifier.steam:110000118c9c11c group.admin # Tejo
+add_principal identifier.steam:110000119596134 group.admin # Ipul
+
+set sv_licenseKey dqyepgganeyb4v77qkwsju3k4f8t7475
+set steam_webApiKey 59024F80A6ABF8F151A2BF6BEDABE73E
+
+# These are the core FiveM resources
+start connectqueue
+start mapmanager
+start chat
+start spawnmanager
+start sessionmanager
+start fivem
+start rconlog
+#start mustache
+#start TigoAntiCheat
+start fivem-ipl
+start bob74_ipl
+start HousingShells
+start notif
+start maps
+start playboy
+start cityhall
+
+## START sESX ADD ##
+start essentialmode
+start es_ui
+start es_admin2
+start mysql-async
+set mysql_debug false
+start esplugin_mysql
+start es_extended
+start esx_menu_default
+start esx_menu_list
+start esx_menu_dialog
+start sesx_assets
+start chat-theme-civlifechat
+
+
+# Phone #
+start ls-radio
+start tokovoip_script
+start esx_addons_gcphone
+start gcphone
+start vdk_call
+
+## ESX STUFF ##
+start cron
+start instance
+start esx_identity
+start skinchanger
+start esx_skin
+start esx_hide_hud
+start monster_vault
+start b1g_notify
+start esx_sit
+#start esx_weaponshops
+start esx_license
+start esx_status
+start esx_basicneeds
+start ESX_Healthbar-UI
+start esx_lockpick
+start esx_service
+start esx_addonaccount
+start esx_addoninventory
+start speed-limit-byJezzy-master
+start esx_taxijob
+start esx_society
+start esx_billing
+#start esx_shops
+start esx_datastore
+start esx_clotheshop
+start esx_accessories
+start esx_vehicleshop
+start esx_garage
+start esx_jobs
+start esx_joblisting
+start esx_drugs
+start esx_policejob
+#start esx_voice
+start esx_ambulancejob
+start esx_migrate
+#start esx-qalle-sellvehicles
+start esx_lscustom
+start esx_doorlock
+start esx_holdupbank
+start esx_holdup
+start esx_criminalrecords
+start esx_moneywash
+start esx_taximeter
+start esx_binoculars
+start esx_handcuffs
+start esx_rope
+start esx_dmvschool
+#start esx_pizza
+start esx_bus
+#start esx_firejob
+#start esx_gopostal
+#start esx_brinksjob
+#start esx_airlines
+start esx_garbagejob
+#start esx_AdvancedFishing
+#start esx_deliveryjob
+start esx_mecanojob
+start esx_barbershop
+start esx_tattoosShops
+start esx_scoreboard
+#start esx_realestateagentjob
+#start esx_truckerjob
+start esx_sky
+start esx_plasticsurgery
+#start esx_impound
+start esx_rpchat
+start Emergency-System
+start es_camera
+start esx_carwash
+#start esx_med
+#start esx_anticheat
+start esx_stash
+start esx_Armour
+#start esx_monkeybahama
+start esx_mafia
+start esx_cartel
+start esx_extraitems
+start esx-kr-bag-inventory
+start esx_jb_trailer
+start esx_inventoryhud
+start esx_inventoryhud_glovebox
+start esx_inventoryhud_trunk
+#start esx_strippers
+start esx_ruskiarrest
+start esx_communityservice
+start esx_advert
+#start esx_locks
+start esx_securitycam
+#start esx_yacht
+start esx_ktackle
+#start esx_panicbutton
+start esx_thief
+#start esx_boatshop
+#start esx_jb_dj
+start esx_mansion
+#start esx_hunting
+start esx_vangelico_robbery
+#start esx_bennys
+#start esx_stevestacos
+start esx_qallejail
+start esx_soa
+#start esx_business
+start esx_police_cad
+start esx_detector
+#start esx_huntingblip
+start esx_litter
+#start esx_oilrigblip
+#start esx_woodyguns
+#start esx_GoldDig
+#start esx_SellGold
+#start esx_docjob
+start esx_detector_prison
+start esx_duty
+start esx-checkdeathcause
+#start fn_vehicleshop
+start Character-Creator
+#start esx_Krowa
+#start esx_pawn
+start esx_contract
+start esx_giveownedcar
+start esx_discord_bot
+start esx_discord_bot1
+start AAHU
+start nohelmet
+start assets
+start RadarWhileDriving
+start coffees
+#start fendt
+start cinema
+start map1
+start streetLabel
+start replace
+start indo
+start pertamina
+
+## genral 5m ##
+start smoke
+#start clientmanager
+start ShowOwnID
+start MissionText
+#start ribxmas
+start ribfields
+start ribbench
+start ribtest
+start TRUCKHQ
+start cleararea
+start vehiclecmds
+start neontoggle
+start locking
+start np-fuel
+#start frfuel
+#start burglary
+start hideintrunk
+start LinxLoadscreen-master
+start RealisticVehicleFailure
+#start trev
+start 3dme
+start 3ddo
+#start time
+#start carhud
+#start air-stuff
+start seatbeltsound
+start seatbelt
+start tp
+start newscam
+start clothesmerfik
+start holsterweapon
+start weaponry
+start peds
+#start Lenzh_chopshop
+#start cars
+start danny3_outlawalert
+start pvp
+start PoliceVehiclesWeaponDeleter
+#start pointing
+#start LegacyFuel
+start pv-tow
+start MedSystem
+start clothes
+start rollcoal
+start fuelLeak
+#start idoverhead
+start prison-map-addon
+start weapons
+start sfx
+start trailersmall
+start disabledispatch
+start vSync
+start seatShuffle
+#start welcome
+#start fightclub
+#start handsup
+start mythic_notify
+start taxi-master
+start CarryPeople
+start PiggyBack
+start damages
+start interactsound
+start taxioffice
+start heli
+#start texture
+#start pNotify
+start lux_vehcontrol
+start NativeUI
+start flatbed
+start ChairBedSystem
+#start speedometer
+start krz_personalmenu-2.0
+start SLBK11_MissionRow
+start block
+#start ChangingRooms
+start escorts
+start removeparked
+
+#start bennysmap
+start outfit
+#start ribrig
+start banner_anim
+start bug
+start secret
+#start torturelegion
+#start burgerplace
+#start mobility
+start pawn
+start lesters
+
+## CARS ##
+start ELS-FiveM
+#start EMSPack
+#start chick
+start acar
+#start garytest
+start addon_bikes
+start rs9000
+#start TruckerJob
+#start club-stuff
+#start fireworks
+start noRewards
+#start casino_pack1
+#start casino_pack2
+#start casino_pack3
+#start casino_vehsounds
+#start casino_anims
+start wash
+#start hotdog
+start legionsign
+start ribcardealer
+#start ribmechshop
+start RIBspiceden
+#start usedcarsmap
+start missionrowgates
+#start pablito_taco
+#start ikea
+start stevesprops
+start flashingheadlights
+start lv_headlights
+start mer_lost
+#start SLBK11_MissionRow
+#start ballas
+#start VehicleExtraMenu
+start pillboxup-mlo
+#start fire
+#start k9
+#start PD_Pack
+#start Notification
+start t0sic_loadingbar
+#start threatbar
+#start houseRobberies
+start ribfed
+start ribjail
+#start NewHP
+#start tuner_laptop
+start marabunta
+#start ribpd
+start donut
+#start openwepshop
+start progressBars # needed for doorlock waiting bar
+start loaf_housing
+#start tardspack
+start vine
+#start woodysplace
+start nobarrier
+#start mcdonaldtop
+#start maccies
+#start borobike
+start davetest
+start davetest2
+#start electric-skateboard
+#start lkrp_notepad
+#start pablito_restauracja
+start new_banking
+start jsfour-idcard
+start kr_pushvehicle
+start TakeHostage
+start deleteai
+start dpemotes
+#start esx_vinerob
+start esx_tpm
+start Sil-2Step
+start Sil-Vape
+#start mceys
+start jewel
+start weapons-on-back
+start jsfour-licenseplate
+start dice
+start dna
+start esx_copshop
+#start LRP-Farmcyc
+start esx_vangelico_robbery2
+
+# Set this to 0 to disallow scripthook. Set it to 1 to make it easier to hack your server.
+sv_scriptHookAllowed 0
+
+# Uncomment this to enable RCON. Make sure to change the password.  You likely don't need this.
+#rcon_password changeme
+
+# A comma-separated list of tags for your server.
+# For example:
+# - sets tags "drifting, cars, racing"
+# Or:
+# - sets tags "roleplay, military, tanks"
+sets tags "indonesia, roleplay, whitelist"
+
+# A valid locale identifier for your server's primary language.
+# For example "en-US", "fr-CA", "nl-NL", "de-DE", "en-GB", "pt-BR"
+sets locale "id-ID" 
+# please DO replace root-AQ on the line ABOVE with a real language! :)
+
+# Set an optional server info and connecting banner image url.
+# Size doesn't matter, any banner sized image will be fine.
+#sets banner_detail "http://url.to/image.png"
+#sets banner_connecting "http://url.to/image.png"
+
+# Set your server's hostname
+sv_hostname "MERAH PUTIH ROLEPLAY | BETA SERVER | discord.gg/g3RrECN"
+
+# Load a server icon (96x96 PNG file)
+load_server_icon MPRLOGO.png
+
+#convars for use from script
+set temp_convar “hey world!”
+#set sv_debugqueue true # prints debug messages to console
+#et sv_displayqueue true # shows queue count in the server name '[count] server name'
+
+# Nested configs!
+#exec server_internal.cfg
+
+# Uncomment this line if you do not want your server to be listed in the server browser.
+sv_master1 ""
+
+# YOU CAN DO SETS WHATEVER " WHATEVER "
+# sets DiscordLink " "
+sets MicRequired " YES "
+sets SteamRequired " YES "
+
+# Want to only allow players authenticated with a third-party provider like Steam?
+# Don't forget Social Club is a third party provider too!
+#sv_authMaxVariance 1
+#sv_authMinTrust 5
+
+# Hide player endpoints in external log output.
+sv_endpointprivacy true
+
+# enable OneSync with default configuration (required for server-side state awareness)
+onesync_enabled true
+
+# Server player slot limit
+sv_maxclients 32
+
+restart sessionmanager

@@ -2,12 +2,12 @@ AntiCheat.Language                  = 'en' -- language used in TigoAntiCheat
 AntiCheat.UpdateIdentifiers         = true -- `true` When a banned players joined with new identifiers is also immediately banned as soon one identifier match banned identifiers
 AntiCheat.BypassEnabled             = true -- `true` Players that has the permission `tigoanticheat.bypass` will never be banned by TigoAntiCheat
 AntiCheat.DiscordWebhook            = 'https://discordapp.com/api/webhooks/735299637644361800/5tNARWWnbFLXpsltrRWLBiWkpNfKc9HuWUH-yhqpTrtfrhuoK-okbVo_ruPCU69TJFHP' -- Webhook to report new bans to
-AntiCheat.VPNCheckEnabled           = true -- `true` Determines if player's IP is possibly VPN and blocks access to your server.
+AntiCheat.VPNCheckEnabled           = false -- `true` Determines if player's IP is possibly VPN and blocks access to your server.
 AntiCheat.VPNAPIKey                 = 'OTc5Mjp1YVNhaDhoMGE3ZjhoVDNaMExjN1F6Q0xRM0hzSnp0VQ==' -- https://iphub.info/apiKey/newFree Generate an API key to use VPN Check in TigoAntiCheat
 AntiCheat.RunningOS                 = 'win' -- For OS specific operations, options: `win` for 'Windows' and `lux` for `Linux`
 AntiCheat.BypassAce                 = 'tigoanticheat.bypass' -- The permission ace a player must have to be ignored (example: add_ace group.admin tigoanticheat.bypass allow)
 AntiCheat.EnableCountryWhitelist    = false -- When `true` only IP's from countries described in CountryWhitelist can join
-AntiCheat.CountryWhitelist          = { 'ID' } -- Alpha-2 country codes -> https://www.iban.com/country-codes
+AntiCheat.CountryWhitelist          = { 'ID', 'SG' } -- Alpha-2 country codes -> https://www.iban.com/country-codes
 
 AntiCheat.Generators = {
     { name = 'config',          params = { 'BlacklistedCommands', 'BlacklistedWeapons', 'BlacklistedVehicles', 'BlacklistedObjects' },                  dir = '',           order = 0,  enabled = true  },

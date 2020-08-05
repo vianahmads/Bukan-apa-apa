@@ -1,10 +1,9 @@
 Locales['en'] = {
-
-    ['valid_purchase'] = 'validate this purchase?',
-    ['yes'] = 'yes',
-    ['no'] = 'no',
-    ['not_enough_money'] = 'you do not have enough money',
-    ['press_access'] = 'press ~INPUT_CONTEXT~ to access the menu',
-    ['barber_blip'] = 'barber shop',
-    ['you_paid'] = 'you paid ',
+  ['valid_purchase'] = 'komfirmasi pembelian?',
+  ['yes'] = 'ya',
+  ['no'] = 'tidak',
+  ['not_enough_money'] = 'uangmu tidak cukup',
+  ['press_access'] = 'tekan ~INPUT_CONTEXT~ untuk mengakses ~y~Barber Shop~s~.',
+  ['barber_blip'] = 'barber Shop',
+  ['you_paid'] = 'kamu membayar ~g~$%s~s~',
 }

@@ -45,10 +45,12 @@ ESX.SetPlayerData = function(key, val)
 end
 
 ESX.ShowNotification = function(msg)
-	SetNotificationTextEntry('STRING')
-	AddTextComponentString(msg)
-	DrawNotification(0,1)
-end
+	exports.notif:SendNotification({
+	  text = msg,
+	  type = 'bottomRight',
+	  timeout = 6000
+	})
+  end
 
 ESX.ShowAdvancedNotification = function(sender, subject, msg, textureDict, iconType, flash, saveToBrief, hudColorIndex)
 	if saveToBrief == nil then saveToBrief = true end

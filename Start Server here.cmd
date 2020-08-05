@@ -1,2 +1,2 @@
-cd /d D:\HBM\NEWESX35
-D:\HBM\NEWESX35\FXServer.exe +exec server.cfg
+cd /d C:\Users\Administrator\Downloads\NEWESX35
+C:\Users\Administrator\Downloads\NEWESX35\FXServer.exe +exec server.cfg

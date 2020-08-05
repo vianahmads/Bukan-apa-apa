@@ -10,9 +10,9 @@ Config.Plates = {
   mecano = "MECH",
   fueler = "FUEL",
   lumberjack = "BUCH",
-  miner = "PENAMBANG",
+  miner = "MINE",
   reporter = "JOUR",
-  slaughterer = "POTONG AYAM",
+  slaughterer = "ABAT",
   tailor = "COUT"
 }
 

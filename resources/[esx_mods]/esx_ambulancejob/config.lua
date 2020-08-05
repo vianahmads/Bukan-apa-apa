@@ -4,7 +4,7 @@ Config.DrawDistance               = 100.0
 
 Config.Marker                     = { type = 1, x = 1, y = 1, z = 1, r = 102, g = 0, b = 102, rotate = true } -- pillbox
 
-Config.ReviveReward               = 500  -- revive reward, set to 0 if you don't want it enabled
+Config.ReviveReward               = 10  -- revive reward, set to 0 if you don't want it enabled
 Config.AntiCombatLog              = true -- enable anti-combat logging?
 Config.LoadIpl                    = false -- disable if you're using fivem-ipl or other IPL loaders
 
@@ -25,7 +25,7 @@ Config.RemoveItemsAfterRPDeath    = true
 
 -- Let the player pay for respawning early, only if he can afford it.
 Config.EarlyRespawnFine           = true
-Config.EarlyRespawnFineAmount     = 10000
+Config.EarlyRespawnFineAmount     = 100000
 
 Config.RespawnPoint = { coords = vector3(320.052, -593.575, 43.292), heading = 93.42} -- pillbox
 

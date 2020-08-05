@@ -72,13 +72,13 @@ function OpenCloakroomMenu()
 
 	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'cloakroom', {
 		title    = _U('cloakroom'),
-		align    = 'top-left',
+		align    = 'right',
 		elements = elements
 	}, function(data, menu)
 		cleanPlayer(playerPed)
 
 		if data.current.value == 'citizen_wear' then
-			if Config.EnableCustomPeds then
+			if Config.EnableNonFreemodePeds then
 				ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
 					local isMale = skin.sex == 0
 
@@ -205,7 +205,7 @@ function OpenArmoryMenu(station)
 
 	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory', {
 		title    = _U('armory'),
-		align    = 'top-left',
+		align    = 'right',
 		elements = elements
 	}, function(data, menu)
 
@@ -235,7 +235,7 @@ function OpenPoliceActionsMenu()
 
 	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'police_actions', {
 		title    = 'Police',
-		align    = 'top-left',
+		align    = 'right',
 		elements = {
 			{label = _U('citizen_interaction'), value = 'citizen_interaction'},
 			{label = _U('vehicle_interaction'), value = 'vehicle_interaction'},
@@ -250,6 +250,7 @@ function OpenPoliceActionsMenu()
 				{label = _U('put_in_vehicle'), value = 'put_in_vehicle'},
 				{label = _U('out_the_vehicle'), value = 'out_the_vehicle'},
 				{label = _U('fine'), value = 'fine'},
+				{label = ('Penjara'), value = 'jail'},
 				{label = _U('unpaid_bills'), value = 'unpaid_bills'}
 			}
 
@@ -259,7 +260,7 @@ function OpenPoliceActionsMenu()
 
 			ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'citizen_interaction', {
 				title    = _U('citizen_interaction'),
-				align    = 'top-left',
+				align    = 'right',
 				elements = elements
 			}, function(data2, menu2)
 				local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
@@ -280,6 +281,8 @@ function OpenPoliceActionsMenu()
 						TriggerServerEvent('esx_policejob:OutVehicle', GetPlayerServerId(closestPlayer))
 					elseif action == 'fine' then
 						OpenFineMenu(closestPlayer)
+					elseif action == 'jail' then
+						JailPlayer(GetPlayerServerId(closestPlayer))
 					elseif action == 'license' then
 						ShowPlayerLicense(closestPlayer)
 					elseif action == 'unpaid_bills' then
@@ -306,7 +309,7 @@ function OpenPoliceActionsMenu()
 
 			ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'vehicle_interaction', {
 				title    = _U('vehicle_interaction'),
-				align    = 'top-left',
+				align    = 'right',
 				elements = elements
 			}, function(data2, menu2)
 				local coords  = GetEntityCoords(playerPed)
@@ -371,7 +374,7 @@ function OpenPoliceActionsMenu()
 		elseif data.current.value == 'object_spawner' then
 			ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'citizen_interaction', {
 				title    = _U('traffic_interaction'),
-				align    = 'top-left',
+				align    = 'right',
 				elements = {
 					{label = _U('cone'), model = 'prop_roadcone02a'},
 					{label = _U('barrier'), model = 'prop_barrier_work05'},
@@ -392,6 +395,23 @@ function OpenPoliceActionsMenu()
 			end)
 		end
 	end, function(data, menu)
+		menu.close()
+	end)
+end
+
+
+function JailPlayer(player)
+	ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'jail_menu', {
+		title = _U('jail_menu_info'),
+	}, function (data2, menu)
+		local jailTime = tonumber(data2.value)
+		if jailTime == nil then
+			ESX.ShowNotification('invalid number!')
+		else
+			TriggerServerEvent("esx_jail:sendToJail", player, jailTime * 60)
+			menu.close()
+		end
+	end, function (data2, menu)
 		menu.close()
 	end)
 end
@@ -423,7 +443,7 @@ function OpenIdentityCardMenu(player)
 
 		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'citizen_interaction', {
 			title    = _U('citizen_interaction'),
-			align    = 'top-left',
+			align    = 'right',
 			elements = elements
 		}, nil, function(data, menu)
 			menu.close()
@@ -432,65 +452,13 @@ function OpenIdentityCardMenu(player)
 end
 
 function OpenBodySearchMenu(player)
-	ESX.TriggerServerCallback('esx_policejob:getOtherPlayerData', function(data)
-		local elements = {}
-
-		for i=1, #data.accounts, 1 do
-			if data.accounts[i].name == 'black_money' and data.accounts[i].money > 0 then
-				table.insert(elements, {
-					label    = _U('confiscate_dirty', ESX.Math.Round(data.accounts[i].money)),
-					value    = 'black_money',
-					itemType = 'item_account',
-					amount   = data.accounts[i].money
-				})
-
-				break
-			end
-		end
-
-		table.insert(elements, {label = _U('guns_label')})
-
-		for i=1, #data.weapons, 1 do
-			table.insert(elements, {
-				label    = _U('confiscate_weapon', ESX.GetWeaponLabel(data.weapons[i].name), data.weapons[i].ammo),
-				value    = data.weapons[i].name,
-				itemType = 'item_weapon',
-				amount   = data.weapons[i].ammo
-			})
-		end
-
-		table.insert(elements, {label = _U('inventory_label')})
-
-		for i=1, #data.inventory, 1 do
-			if data.inventory[i].count > 0 then
-				table.insert(elements, {
-					label    = _U('confiscate_inv', data.inventory[i].count, data.inventory[i].label),
-					value    = data.inventory[i].name,
-					itemType = 'item_standard',
-					amount   = data.inventory[i].count
-				})
-			end
-		end
-
-		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'body_search', {
-			title    = _U('search'),
-			align    = 'top-left',
-			elements = elements
-		}, function(data, menu)
-			if data.current.value then
-				TriggerServerEvent('esx_policejob:confiscatePlayerItem', GetPlayerServerId(player), data.current.itemType, data.current.value, data.current.amount)
-				OpenBodySearchMenu(player)
-			end
-		end, function(data, menu)
-			menu.close()
-		end)
-	end, GetPlayerServerId(player))
+	TriggerEvent("esx_inventoryhud:openPlayerInventory", GetPlayerServerId(player), GetPlayerName(player))
 end
 
 function OpenFineMenu(player)
 	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'fine', {
 		title    = _U('fine'),
-		align    = 'top-left',
+		align    = 'right',
 		elements = {
 			{label = _U('traffic_offense'), value = 0},
 			{label = _U('minor_offense'),   value = 1},
@@ -518,7 +486,7 @@ function OpenFineCategoryMenu(player, category)
 
 		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'fine_category', {
 			title    = _U('fine'),
-			align    = 'top-left',
+			align    = 'right',
 			elements = elements
 		}, function(data, menu)
 			menu.close()
@@ -558,7 +526,7 @@ function LookupVehicle()
 
 				ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'vehicle_infos', {
 					title    = _U('vehicle_info'),
-					align    = 'top-left',
+					align    = 'right',
 					elements = elements
 				}, nil, function(data2, menu2)
 					menu2.close()
@@ -588,7 +556,7 @@ function ShowPlayerLicense(player)
 
 		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'manage_license', {
 			title    = _U('license_revoke'),
-			align    = 'top-left',
+			align    = 'right',
 			elements = elements,
 		}, function(data, menu)
 			ESX.ShowNotification(_U('licence_you_revoked', data.current.label, playerData.name))
@@ -619,7 +587,7 @@ function OpenUnpaidBillsMenu(player)
 
 		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'billing', {
 			title    = _U('unpaid_bills'),
-			align    = 'top-left',
+			align    = 'right',
 			elements = elements
 		}, nil, function(data, menu)
 			menu.close()
@@ -639,7 +607,7 @@ function OpenVehicleInfosMenu(vehicleData)
 
 		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'vehicle_infos', {
 			title    = _U('vehicle_info'),
-			align    = 'top-left',
+			align    = 'right',
 			elements = elements
 		}, nil, function(data, menu)
 			menu.close()
@@ -662,7 +630,7 @@ function OpenGetWeaponMenu()
 
 		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory_get_weapon', {
 			title    = _U('get_weapon_menu'),
-			align    = 'top-left',
+			align    = 'right',
 			elements = elements
 		}, function(data, menu)
 			menu.close()
@@ -694,7 +662,7 @@ function OpenPutWeaponMenu()
 
 	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory_put_weapon', {
 		title    = _U('put_weapon_menu'),
-		align    = 'top-left',
+		align    = 'right',
 		elements = elements
 	}, function(data, menu)
 		menu.close()
@@ -769,7 +737,7 @@ function OpenBuyWeaponsMenu()
 
 	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory_buy_weapons', {
 		title    = _U('armory_weapontitle'),
-		align    = 'top-left',
+		align    = 'right',
 		elements = elements
 	}, function(data, menu)
 		if data.current.hasWeapon then
@@ -798,7 +766,7 @@ end
 function OpenWeaponComponentShop(components, weaponName, parentShop)
 	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory_buy_weapons_components', {
 		title    = _U('armory_componenttitle'),
-		align    = 'top-left',
+		align    = 'right',
 		elements = components
 	}, function(data, menu)
 		if data.current.hasComponent then
@@ -836,7 +804,7 @@ function OpenGetStocksMenu()
 
 		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'stocks_menu', {
 			title    = _U('police_stock'),
-			align    = 'top-left',
+			align    = 'right',
 			elements = elements
 		}, function(data, menu)
 			local itemName = data.current.value
@@ -883,7 +851,7 @@ function OpenPutStocksMenu()
 
 		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'stocks_menu', {
 			title    = _U('inventory'),
-			align    = 'top-left',
+			align    = 'right',
 			elements = elements
 		}, function(data, menu)
 			local itemName = data.current.value
@@ -1136,7 +1104,7 @@ AddEventHandler('esx_policejob:OutVehicle', function()
 
 	if IsPedSittingInAnyVehicle(playerPed) then
 		local vehicle = GetVehiclePedIsIn(playerPed, false)
-		TaskLeaveVehicle(playerPed, vehicle, 64)
+		TaskLeaveVehicle(playerPed, vehicle, 16)
 	end
 end)
 
@@ -1234,7 +1202,7 @@ Citizen.CreateThread(function()
 					local distance = #(playerCoords - v.Cloakrooms[i])
 
 					if distance < Config.DrawDistance then
-						DrawMarker(Config.MarkerType.Cloakrooms, v.Cloakrooms[i], 0.0, 0.0, 0.0, 0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+						DrawMarker(20, v.Cloakrooms[i], 0.0, 0.0, 0.0, 0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
 						letSleep = false
 
 						if distance < Config.MarkerSize.x then
@@ -1247,7 +1215,7 @@ Citizen.CreateThread(function()
 					local distance = #(playerCoords - v.Armories[i])
 
 					if distance < Config.DrawDistance then
-						DrawMarker(Config.MarkerType.Armories, v.Armories[i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 0.5, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+						DrawMarker(21, v.Armories[i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.5, 0.5, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
 						letSleep = false
 
 						if distance < Config.MarkerSize.x then
@@ -1260,7 +1228,7 @@ Citizen.CreateThread(function()
 					local distance = #(playerCoords - v.Vehicles[i].Spawner)
 
 					if distance < Config.DrawDistance then
-						DrawMarker(Config.MarkerType.Vehicles, v.Vehicles[i].Spawner, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+						DrawMarker(36, v.Vehicles[i].Spawner, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
 						letSleep = false
 
 						if distance < Config.MarkerSize.x then
@@ -1273,7 +1241,7 @@ Citizen.CreateThread(function()
 					local distance =  #(playerCoords - v.Helicopters[i].Spawner)
 
 					if distance < Config.DrawDistance then
-						DrawMarker(Config.MarkerType.Helicopters, v.Helicopters[i].Spawner, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+						DrawMarker(34, v.Helicopters[i].Spawner, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
 						letSleep = false
 
 						if distance < Config.MarkerSize.x then
@@ -1287,7 +1255,7 @@ Citizen.CreateThread(function()
 						local distance = #(playerCoords - v.BossActions[i])
 
 						if distance < Config.DrawDistance then
-							DrawMarker(Config.MarkerType.BossActions, v.BossActions[i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+							DrawMarker(22, v.BossActions[i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
 							letSleep = false
 
 							if distance < Config.MarkerSize.x then

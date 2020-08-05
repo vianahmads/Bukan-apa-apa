@@ -1,22 +1,7 @@
- local Keys = {
-	["ESC"] = 322, ["F1"] = 288, ["F2"] = 289, ["F3"] = 170, ["F5"] = 166, ["F6"] = 167, ["F7"] = 168, ["F8"] = 169, ["F9"] = 56, ["F10"] = 57, 
-	["~"] = 243, ["1"] = 157, ["2"] = 158, ["3"] = 160, ["4"] = 164, ["5"] = 165, ["6"] = 159, ["7"] = 161, ["8"] = 162, ["9"] = 163, ["-"] = 84, ["="] = 83, ["BACKSPACE"] = 177, 
-	["TAB"] = 37, ["Q"] = 44, ["W"] = 32, ["E"] = 38, ["R"] = 45, ["T"] = 245, ["Y"] = 246, ["U"] = 303, ["P"] = 199, ["["] = 39, ["]"] = 40, ["ENTER"] = 18,
-	["CAPS"] = 137, ["A"] = 34, ["S"] = 8, ["D"] = 9, ["F"] = 23, ["G"] = 47, ["H"] = 74, ["K"] = 311, ["L"] = 182,
-	["LEFTSHIFT"] = 21, ["Z"] = 20, ["X"] = 73, ["C"] = 26, ["V"] = 0, ["B"] = 29, ["N"] = 249, ["M"] = 244, [","] = 82, ["."] = 81,
-	["LEFTCTRL"] = 36, ["LEFTALT"] = 19, ["SPACE"] = 22, ["RIGHTCTRL"] = 70, 
-	["HOME"] = 213, ["PAGEUP"] = 10, ["PAGEDOWN"] = 11, ["DELETE"] = 178,
-	["LEFT"] = 174, ["RIGHT"] = 175, ["TOP"] = 27, ["DOWN"] = 173,
-	["NENTER"] = 201, ["N4"] = 108, ["N5"] = 60, ["N6"] = 107, ["N+"] = 96, ["N-"] = 97, ["N7"] = 117, ["N8"] = 61, ["N9"] = 118
-}
-
-ESX								= nil
-local HasAlreadyEnteredMarker	= false
-local LastZone					= nil
-local CurrentAction				= nil
-local CurrentActionMsg			= ''
-local CurrentActionData			= {}
-local isDead					= false
+ESX	= nil
+local HasAlreadyEnteredMarker, isDead = false, false
+local LastZone, CurrentAction, CurrentActionMsg
+local CurrentActionData	= {}
 
 Citizen.CreateThread(function()
 	while ESX == nil do
@@ -26,21 +11,17 @@ Citizen.CreateThread(function()
 end)
 
 function OpenAccessoryMenu()
-	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'set_unset_accessory',
-	{
-		css   = 'accesoires',
+	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'set_unset_accessory', {
 		title = _U('set_unset'),
-		align = 'right',
+		align = 'top-left',
 		elements = {
 			{label = _U('helmet'), value = 'Helmet'},
 			{label = _U('ears'), value = 'Ears'},
 			{label = _U('mask'), value = 'Mask'},
 			{label = _U('glasses'), value = 'Glasses'}
-		}
-	}, function(data, menu)
+		}}, function(data, menu)
 		menu.close()
 		SetUnsetAccessory(data.current.value)
-
 	end, function(data, menu)
 		menu.close()
 	end)
@@ -72,7 +53,6 @@ function SetUnsetAccessory(accessory)
 		else
 			ESX.ShowNotification(_U('no_' .. _accessory))
 		end
-
 	end, accessory)
 end
 
@@ -81,21 +61,18 @@ function OpenShopMenu(accessory)
 	local restrict = {}
 
 	restrict = { _accessory .. '_1', _accessory .. '_2' }
-	
+
 	TriggerEvent('esx_skin:openRestrictedMenu', function(data, menu)
 
 		menu.close()
 
-		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'shop_confirm',
-		{
-			css   = 'accesoires',
+		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'shop_confirm', {
 			title = _U('valid_purchase'),
-			align = 'right',
+			align = 'top-left',
 			elements = {
 				{label = _U('no'), value = 'no'},
 				{label = _U('yes', ESX.Math.GroupDigits(Config.Price)), value = 'yes'}
-			}
-		}, function(data, menu)
+			}}, function(data, menu)
 			menu.close()
 			if data.current.value == 'yes' then
 				ESX.TriggerServerCallback('esx_accessories:checkMoney', function(hasEnoughMoney)
@@ -136,7 +113,6 @@ function OpenShopMenu(accessory)
 			CurrentAction     = 'shop_menu'
 			CurrentActionMsg  = _U('press_access')
 			CurrentActionData = {}
-
 		end)
 	end, function(data, menu)
 		menu.close()
@@ -146,13 +122,8 @@ function OpenShopMenu(accessory)
 	end, restrict)
 end
 
-AddEventHandler('playerSpawned', function()
-	isDead = false
-end)
-
-AddEventHandler('esx:onPlayerDeath', function()
-	isDead = true
-end)
+AddEventHandler('esx:onPlayerSpawn', function() isDead = false end)
+AddEventHandler('esx:onPlayerDeath', function() isDead = true end)
 
 AddEventHandler('esx_accessories:hasEnteredMarker', function(zone)
 	CurrentAction     = 'shop_menu'
@@ -170,7 +141,7 @@ Citizen.CreateThread(function()
 	for k,v in pairs(Config.ShopsBlips) do
 		if v.Pos ~= nil then
 			for i=1, #v.Pos, 1 do
-				local blip = AddBlipForCoord(v.Pos[i].x, v.Pos[i].y, v.Pos[i].z)
+				local blip = AddBlipForCoord(v.Pos[i])
 
 				SetBlipSprite (blip, v.Blip.sprite)
 				SetBlipDisplay(blip, 4)
@@ -193,25 +164,24 @@ Citizen.CreateThread(function()
 		local coords = GetEntityCoords(PlayerPedId())
 		for k,v in pairs(Config.Zones) do
 			for i = 1, #v.Pos, 1 do
-				if(Config.Type ~= -1 and GetDistanceBetweenCoords(coords, v.Pos[i].x, v.Pos[i].y, v.Pos[i].z, true) < Config.DrawDistance) then
-					DrawMarker(Config.Type, v.Pos[i].x, v.Pos[i].y, v.Pos[i].z, 0.0, 0.0, 0.0, 0, 0.0, 0.0, Config.Size.x, Config.Size.y, Config.Size.z, Config.Color.r, Config.Color.g, Config.Color.b, 100, false, true, 2, false, false, false, false)
+				if(Config.Type ~= -1 and GetDistanceBetweenCoords(coords, v.Pos[i], true) < Config.DrawDistance) then
+					DrawMarker(Config.Type, v.Pos[i], 0.0, 0.0, 0.0, 0, 0.0, 0.0, Config.Size.x, Config.Size.y, Config.Size.z, Config.Color.r, Config.Color.g, Config.Color.b, 100, false, true, 2, false, false, false, false)
 				end
 			end
 		end
 	end
 end)
 
-
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(200)
 
-		local coords      = GetEntityCoords(PlayerPedId())
-		local isInMarker  = false
+		local coords = GetEntityCoords(PlayerPedId())
+		local isInMarker = false
 		local currentZone = nil
 		for k,v in pairs(Config.Zones) do
 			for i = 1, #v.Pos, 1 do
-				if GetDistanceBetweenCoords(coords, v.Pos[i].x, v.Pos[i].y, v.Pos[i].z, true) < Config.Size.x then
+				if GetDistanceBetweenCoords(coords, v.Pos[i], true) < Config.Size.x then
 					isInMarker  = true
 					currentZone = k
 				end
@@ -228,7 +198,6 @@ Citizen.CreateThread(function()
 			HasAlreadyEnteredMarker = false
 			TriggerEvent('esx_accessories:hasExitedMarker', LastZone)
 		end
-
 	end
 end)
 
@@ -237,22 +206,20 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		
-		if CurrentAction ~= nil then
+		if CurrentAction then
 			ESX.ShowHelpNotification(CurrentActionMsg)
 
-			if IsControlJustReleased(0, Keys['E']) and CurrentActionData.accessory then
+			if IsControlJustReleased(0, 38) and CurrentActionData.accessory then
 				OpenShopMenu(CurrentActionData.accessory)
 				CurrentAction = nil
 			end
-		elseif CurrentAction == nil and not Config.EnableControls then
+		elseif CurrentAction and not Config.EnableControls then
 			Citizen.Wait(500)
 		end
 
 		if Config.EnableControls then
-			if GetLastInputMethod(2) then
-				if IsControlJustReleased(2, Keys['-']) and not isDead then
-					OpenAccessoryMenu()
-				end
+			if IsControlJustReleased(0, 84) and IsInputDisabled(0) and not isDead then
+				OpenAccessoryMenu()
 			end
 		end
 	end

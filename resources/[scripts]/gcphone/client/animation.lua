@@ -5,7 +5,7 @@
 local myPedId = nil
 
 local phoneProp = 0
-local phoneModel = "prop_amb_phone"
+local phoneModel = -1038739674
 -- OR "prop_npc_phone"
 -- OR "prop_npc_phone_02"
 -- OR "prop_cs_phone_01"
@@ -20,15 +20,16 @@ local ANIMS = {
 		['out'] = {
 			['text'] = 'cellphone_text_in',
 			['call'] = 'cellphone_call_listen_base',
-			
 		},
 		['text'] = {
 			['out'] = 'cellphone_text_out',
+			['text'] = 'cellphone_text_in',
 			['call'] = 'cellphone_text_to_call',
 		},
 		['call'] = {
 			['out'] = 'cellphone_call_out',
 			['text'] = 'cellphone_call_to_text',
+			['call'] = 'cellphone_text_to_call',
 		}
 	},
 	['anim@cellphone@in_car@ps'] = {
@@ -38,11 +39,13 @@ local ANIMS = {
 		},
 		['text'] = {
 			['out'] = 'cellphone_text_out',
+			['text'] = 'cellphone_text_in',
 			['call'] = 'cellphone_text_to_call',
 		},
 		['call'] = {
 			['out'] = 'cellphone_horizontal_exit',
 			['text'] = 'cellphone_call_to_text',
+			['call'] = 'cellphone_text_to_call',
 		}
 	}
 }
@@ -68,10 +71,11 @@ end
 --[[
 	out || text || Call ||
 --]]
-function PhonePlayAnim (status, freeze)
-	if currentStatus == status then
+function PhonePlayAnim (status, freeze, force)
+	if currentStatus == status and force ~= true then
 		return
 	end
+
 	myPedId = GetPlayerPed(-1)
 	local freeze = freeze or false
 

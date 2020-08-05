@@ -16,7 +16,7 @@ AddEventHandler('esx_policejob:confiscatePlayerItem', function(target, itemType,
 	local targetXPlayer = ESX.GetPlayerFromId(target)
 
 	if sourceXPlayer.job.name ~= 'police' then
-		print(('esx_policejob: %s attempted to confiscate!'):format(sourceXPlayer.identifier))
+		print(('esx_policejob: %s attempted to confiscate!'):format(xPlayer.identifier))
 		return
 	end
 
@@ -63,6 +63,12 @@ AddEventHandler('esx_policejob:handcuff', function(target)
 
 	if xPlayer.job.name == 'police' then
 		TriggerClientEvent('esx_policejob:handcuff', target)
+	elseif xPlayer.job.name == 'mafia' then
+		TriggerClientEvent('esx_policejob:handcuff', target)
+	elseif xPlayer.job.name == 'cartel' then
+		TriggerClientEvent('esx_policejob:handcuff', target)
+	elseif xPlayer.job.name == 'lazy' then
+		TriggerClientEvent('esx_policejob:handcuff', target)
 	else
 		print(('esx_policejob: %s attempted to handcuff a player (not cop)!'):format(xPlayer.identifier))
 	end
@@ -73,6 +79,10 @@ AddEventHandler('esx_policejob:drag', function(target)
 	local xPlayer = ESX.GetPlayerFromId(source)
 
 	if xPlayer.job.name == 'police' then
+		TriggerClientEvent('esx_policejob:drag', target, source)
+	elseif xPlayer.job.name == 'mafia' then
+		TriggerClientEvent('esx_policejob:drag', target, source)
+	elseif xPlayer.job.name == 'lazy' then
 		TriggerClientEvent('esx_policejob:drag', target, source)
 	else
 		print(('esx_policejob: %s attempted to drag (not cop)!'):format(xPlayer.identifier))
@@ -173,16 +183,16 @@ ESX.RegisterServerCallback('esx_policejob:getOtherPlayerData', function(source, 
 			if status then
 				data.drunk = ESX.Math.Round(status.percent)
 			end
+		end)
 
-			if Config.EnableLicenses then
-				TriggerEvent('esx_license:getLicenses', target, function(licenses)
-					data.licenses = licenses
+		if Config.EnableLicenses then
+			TriggerEvent('esx_license:getLicenses', target, function(licenses)
+				data.licenses = licenses
 					cb(data)
 				end)
 			else
 				cb(data)
-			end
-		end)
+		end
 	end
 end)
 

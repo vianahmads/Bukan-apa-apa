@@ -67,7 +67,7 @@ function OpenCloakroomMenu()
       'default', GetCurrentResourceName(), 'cloakroom',
       {
         title    = _U('cloakroom'),
-        align    = 'top-left',
+        align    = 'right',
         elements = elements,
         },
 
@@ -259,7 +259,7 @@ function OpenArmoryMenu(station)
       'default', GetCurrentResourceName(), 'armory',
       {
         title    = _U('armory'),
-        align    = 'top-left',
+        align    = 'right',
         elements = elements,
       },
       function(data, menu)
@@ -310,7 +310,7 @@ function OpenArmoryMenu(station)
       'default', GetCurrentResourceName(), 'armory',
       {
         title    = _U('armory'),
-        align    = 'top-left',
+        align    = 'right',
         elements = elements,
       },
       function(data, menu)
@@ -352,7 +352,7 @@ function OpenVehicleSpawnerMenu(station, partNum)
         'default', GetCurrentResourceName(), 'vehicle_spawner',
         {
           title    = _U('vehicle_menu'),
-          align    = 'top-left',
+          align    = 'right',
           elements = elements,
         },
         function(data, menu)
@@ -396,7 +396,7 @@ function OpenVehicleSpawnerMenu(station, partNum)
       'default', GetCurrentResourceName(), 'vehicle_spawner',
       {
         title    = _U('vehicle_menu'),
-        align    = 'top-left',
+        align    = 'right',
         elements = elements,
       },
       function(data, menu)
@@ -473,7 +473,7 @@ function OpenCartelActionsMenu()
     'default', GetCurrentResourceName(), 'cartel_actions',
     {
       title    = 'Cartel',
-      align    = 'top-left',
+      align    = 'right',
       elements = {
         {label = _U('citizen_interaction'), value = 'citizen_interaction'},
         {label = _U('vehicle_interaction'), value = 'vehicle_interaction'},
@@ -488,15 +488,13 @@ function OpenCartelActionsMenu()
           'default', GetCurrentResourceName(), 'citizen_interaction',
           {
             title    = _U('citizen_interaction'),
-            align    = 'top-left',
+            align    = 'right',
             elements = {
-              {label = _U('id_card'),       value = 'identity_card'},
               {label = _U('search'),        value = 'body_search'},
               {label = _U('handcuff'),    value = 'handcuff'},
               {label = _U('drag'),      value = 'drag'},
               {label = _U('put_in_vehicle'),  value = 'put_in_vehicle'},
               {label = _U('out_the_vehicle'), value = 'out_the_vehicle'},
-              {label = _U('fine'),            value = 'fine'}
             },
           },
           function(data2, menu2)
@@ -551,7 +549,7 @@ function OpenCartelActionsMenu()
           'default', GetCurrentResourceName(), 'vehicle_interaction',
           {
             title    = _U('vehicle_interaction'),
-            align    = 'top-left',
+            align    = 'right',
             elements = {
               {label = _U('vehicle_info'), value = 'vehicle_infos'},
               {label = _U('pick_lock'),    value = 'hijack_vehicle'},
@@ -621,7 +619,7 @@ function OpenCartelActionsMenu()
           'default', GetCurrentResourceName(), 'citizen_interaction',
           {
             title    = _U('traffic_interaction'),
-            align    = 'top-left',
+            align    = 'right',
             elements = {
               {label = _U('cone'),     value = 'prop_roadcone02a'},
               {label = _U('barrier'), value = 'prop_barrier_work06a'},
@@ -745,7 +743,7 @@ function OpenIdentityCardMenu(player)
         'default', GetCurrentResourceName(), 'citizen_interaction',
         {
           title    = _U('citizen_interaction'),
-          align    = 'top-left',
+          align    = 'right',
           elements = elements,
         },
         function(data, menu)
@@ -793,7 +791,7 @@ function OpenIdentityCardMenu(player)
         'default', GetCurrentResourceName(), 'citizen_interaction',
         {
           title    = _U('citizen_interaction'),
-          align    = 'top-left',
+          align    = 'right',
           elements = elements,
         },
         function(data, menu)
@@ -820,7 +818,7 @@ function OpenFineMenu(player)
     'default', GetCurrentResourceName(), 'fine',
     {
       title    = _U('fine'),
-      align    = 'top-left',
+      align    = 'right',
       elements = {
         {label = _U('traffic_offense'),   value = 0},
         {label = _U('minor_offense'),     value = 1},
@@ -859,7 +857,7 @@ function OpenFineCategoryMenu(player, category)
       'default', GetCurrentResourceName(), 'fine_category',
       {
         title    = _U('fine'),
-        align    = 'top-left',
+        align    = 'right',
         elements = elements,
       },
       function(data, menu)
@@ -907,7 +905,7 @@ function OpenVehicleInfosMenu(vehicleData)
       'default', GetCurrentResourceName(), 'vehicle_infos',
       {
         title    = _U('vehicle_info'),
-        align    = 'top-left',
+        align    = 'right',
         elements = elements,
       },
       nil,
@@ -936,7 +934,7 @@ function OpenGetWeaponMenu()
       'default', GetCurrentResourceName(), 'armory_get_weapon',
       {
         title    = _U('get_weapon_menu'),
-        align    = 'top-left',
+        align    = 'right',
         elements = elements,
       },
       function(data, menu)
@@ -978,7 +976,7 @@ function OpenPutWeaponMenu()
     'default', GetCurrentResourceName(), 'armory_put_weapon',
     {
       title    = _U('put_weapon_menu'),
-      align    = 'top-left',
+      align    = 'right',
       elements = elements,
     },
     function(data, menu)
@@ -1023,7 +1021,7 @@ function OpenBuyWeaponsMenu(station)
       'default', GetCurrentResourceName(), 'armory_buy_weapons',
       {
         title    = _U('buy_weapon_menu'),
-        align    = 'top-left',
+        align    = 'right',
         elements = elements,
       },
       function(data, menu)
@@ -1402,9 +1400,48 @@ Citizen.CreateThread(function()
   while true do
     Wait(0)
     if IsHandcuffed then
-      DisableControlAction(0, 142, true) -- MeleeAttackAlternate
-      DisableControlAction(0, 30,  true) -- MoveLeftRight
-      DisableControlAction(0, 31,  true) -- MoveUpDown
+      DisableControlAction(0, 1, true) -- Disable pan
+			DisableControlAction(0, 2, true) -- Disable tilt
+			DisableControlAction(0, 24, true) -- Attack
+			DisableControlAction(0, 257, true) -- Attack 2
+			DisableControlAction(0, 25, true) -- Aim
+			DisableControlAction(0, 263, true) -- Melee Attack 1
+			DisableControlAction(0, 32, true) -- W
+			DisableControlAction(0, 34, true) -- A
+			DisableControlAction(0, 31, true) -- S
+			DisableControlAction(0, 30, true) -- D
+
+			DisableControlAction(0, 45, true) -- Reload
+			DisableControlAction(0, 22, true) -- Jump
+			DisableControlAction(0, 44, true) -- Cover
+			DisableControlAction(0, 37, true) -- Select Weapon
+			DisableControlAction(0, 23, true) -- Also 'enter'?
+
+			DisableControlAction(0, 288,  true) -- Disable phone
+			DisableControlAction(0, 289, true) -- Inventory
+			DisableControlAction(0, 170, true) -- Animations
+			DisableControlAction(0, 167, true) -- Job
+
+			DisableControlAction(0, 0, true) -- Disable changing view
+			DisableControlAction(0, 26, true) -- Disable looking behind
+			DisableControlAction(0, 73, true) -- Disable clearing animation
+			DisableControlAction(2, 199, true) -- Disable pause screen
+
+			DisableControlAction(0, 59, true) -- Disable steering in vehicle
+			DisableControlAction(0, 71, true) -- Disable driving forward in vehicle
+			DisableControlAction(0, 72, true) -- Disable reversing in vehicle
+
+			DisableControlAction(2, 36, true) -- Disable going stealth
+
+			DisableControlAction(0, 47, true)  -- Disable weapon
+			DisableControlAction(0, 264, true) -- Disable melee
+			DisableControlAction(0, 257, true) -- Disable melee
+			DisableControlAction(0, 140, true) -- Disable melee
+			DisableControlAction(0, 141, true) -- Disable melee
+			DisableControlAction(0, 142, true) -- Disable melee
+			DisableControlAction(0, 143, true) -- Disable melee
+			DisableControlAction(0, 75, true)  -- Disable exit vehicle
+			DisableControlAction(27, 75, true) -- Disable exit vehicle
     end
   end
 end)
@@ -1746,7 +1783,7 @@ Citizen.CreateThread(function()
 
     end
 
-   if IsControlPressed(0,  Keys['=']) and PlayerData.job ~= nil and PlayerData.job.name == 'cartel' and not ESX.UI.Menu.IsOpen('default', GetCurrentResourceName(), 'cartel_actions') and (GetGameTimer() - GUI.Time) > 150 then
+   if IsControlPressed(0,  Keys['F6']) and PlayerData.job ~= nil and PlayerData.job.name == 'cartel' and not ESX.UI.Menu.IsOpen('default', GetCurrentResourceName(), 'cartel_actions') and (GetGameTimer() - GUI.Time) > 150 then
      OpenCartelActionsMenu()
      GUI.Time = GetGameTimer()
     end

@@ -50,7 +50,6 @@ Config.Shops = {
         Items = {
             {name = 'bread'},
             {name = 'donut'},
-            {name = 'donut2'},
             {name = 'water'},
             {name = 'radio'},
             {name = 'bag'}
@@ -96,8 +95,7 @@ Config.Shops = {
         Items = {
             {name = 'bread'}, -- add more items here
             {name = 'water'},
-            {name = 'donut'},
-            {name = 'donut2'}
+            {name = 'donut'}
         }
     },
 

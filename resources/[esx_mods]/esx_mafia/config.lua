@@ -1,94 +1,80 @@
 Config                            = {}
+
 Config.DrawDistance               = 100.0
 Config.MarkerType                 = 1
-Config.MarkerSize                 = { x = 1.5, y = 1.5, z = 1.0 }
+Config.MarkerSize                 = { x = 2.0, y = 2.0, z = 0.5 }
 Config.MarkerColor                = { r = 50, g = 50, b = 204 }
+
 Config.EnablePlayerManagement     = true
 Config.EnableArmoryManagement     = true
-Config.EnableESXIdentity          = true -- only turn this on if you are using esx_identity
+Config.EnableESXIdentity          = true -- enable if you're using esx_identity
 Config.EnableNonFreemodePeds      = false -- turn this on if you want custom peds
-Config.EnableSocietyOwnedVehicles = false
-Config.EnableLicenses             = false
+Config.EnableLicenses             = false -- enable if you're using esx_license
+
+Config.EnableHandcuffTimer        = true -- enable handcuff timer? will unrestrain player after the time ends
+Config.HandcuffTimer              = 10 * 60000 -- 10 mins
+
+Config.EnableJobBlip              = false -- enable blips for colleagues, requires esx_society
+
 Config.MaxInService               = -1
-Config.Locale                     = 'en'
+Config.Locale                     = 'id'
 
 Config.MafiaStations = {
 
-  Cartel = {
+	Mafia = {
 
-    Blip = {
-      Pos     = { x = 425.130, y = -979.558, z = 30.711 },
-      Sprite  = 60,
-      Display = 4,
-      Scale   = 1.2,
-      Colour  = 29,
-    },
+		AuthorizedWeapons = {
+			{ name = 'WEAPON_COMBATPISTOL',     price = 35000 },
+			{ name = 'WEAPON_PISTOL50',     price = 50000 },
+			{ name = 'WEAPON_SMG',       price = 100000 },
+			{ name = 'WEAPON_ASSAULTRIFLE',     price = 150000 },
+			--{ name = 'WEAPON_PUMPSHOTGUN',      price = 12000000 },
+			{ name = 'WEAPON_SNIPERRIFLE',      price = 200000 },
+			--{ name = 'WEAPON_BZGAS',            price = 500000 },
+			{ name = 'WEAPON_STICKYBOMB',     price = 75000 },
+			--{ name = 'WEAPON_APPISTOL',         price = 10250000 },
+			--{ name = 'WEAPON_CARBINERIFLE',     price = 15385000 },
+			--{ name = 'WEAPON_HEAVYSNIPER',      price = 30000000 },
+			--{ name = 'WEAPON_REVOLVER',         price = 10500000 },
+	  
+		  },
+	  
+			AuthorizedVehicles = {
+				{ name = 'schafter3',  label = 'Civil vehicle' },
+				{ name = 'btype',      label = 'Roosevelt' },
+				{ name = 'sandking',   label = '4X4' },
+				{ name = 'mule3',      label = 'Transport truck' },
+				{ name = 'guardian',   label = 'Grand 4x4' },
+				{ name = 'burrito3',   label = 'minivan' },
+				{ name = 'mesa',       label = 'Tout-Terrain' },
+			},
+	  
 
-    AuthorizedWeapons = {
-     -- { name = 'WEAPON_SAWNOFFSHOTGUN',       price = 9000 },
-     -- { name = 'WEAPON_PISTOL50',     price = 30000 },
-     -- { name = 'WEAPON_BULLPUPSHOTGUN',       price = 1125000 },
-     -- { name = 'WEAPON_COMPACTRIFLE',     price = 1500000 },
-     -- { name = 'WEAPON_PUMPSHOTGUN',      price = 600000 },
-     -- { name = 'WEAPON_STUNGUN',          price = 50000 },
-     -- { name = 'WEAPON_FLASHLIGHT',       price = 800 },
-     -- { name = 'WEAPON_FIREEXTINGUISHER', price = 1200 },
-     -- { name = 'WEAPON_FLAREGUN',         price = 6000 },
-     -- { name = 'GADGET_PARACHUTE',        price = 3000 },
-	   -- { name = 'WEAPON_BAT'		,        price = 3000 },
-     -- { name = 'WEAPON_STICKYBOMB',       price = 200000 },
-     -- { name = 'WEAPON_SNIPERRIFLE',      price = 2200000 },
-     -- { name = 'WEAPON_FIREWORK',         price = 30000 },
-     -- { name = 'WEAPON_GRENADE',          price = 180000 },
-     -- { name = 'WEAPON_BZGAS',            price = 120000 },
-     -- { name = 'WEAPON_SMOKEGRENADE',     price = 100000 },
-     -- { name = 'WEAPON_APPISTOL',         price = 70000 },
-     -- { name = 'WEAPON_CARBINERIFLE',     price = 1100000 },
-     -- { name = 'WEAPON_HEAVYSNIPER',      price = 2000000 },
-     -- { name = 'WEAPON_MINIGUN',          price = 700000 },
-     -- { name = 'WEAPON_RAILGUN',          price = 2500000 },
-    },
+		Cloakrooms = {
+			vector3(-1531.2329101563, 142.45376586914, 55.667976379395)
+		},
 
-	  AuthorizedVehicles = {
-		  { name = 'cognoscenti2',  label = 'Véhicule Blindé' },
-		  { name = 'Manchez',    label = 'Moto' },
-		  { name = 'Contender',   label = '4X4' },
-		  { name = 'felon',      label = 'Véhicule Civil' },
-	  },
+		Armories = {
+			vector3(-1507.759765625, 105.11976623535, 52.240760803223)
+		},
 
-    Cloakrooms = {
-      { x = 2441.0107421875, y = 4973.1186523438, z = 50.564865112305},
-    },
+		Vehicles = {
+			{
+				Spawner = vector3(-1524.2009277344, 80.548194885254, 56.696224212646),
+				SpawnPoints = {
+					{ coords = vector3(-1526.1616210938, 97.160385131836, 56.666744232178), heading = 223.7, radius = 6.0 }
+				}
+			}
+		},
 
-    Armories = {
-      { x = 2432.5991210938, y = 4971.0986328125, z = 41.347564697266},
-    },
+		VehicleDeleters = {
+			{ x = -1532.7502441406, y = 82.288780212402, z = 55.761054992676 },
+		},
 
-    Vehicles = {
-      {
-        Spawner    = { x = 2478.5764160156, y = 4957.1899414063, z = 44.033519744873 },
-        SpawnPoint = { x = 2466.0036621094, y = 4958.9047851563, z = 44.105583190918 },
-        Heading    = 322.246704,
-      }
-    },
+		BossActions = {
+			vector3(-1496.5670166016, 125.51281738281, 55.668006896973)
+		}
 
-    Helicopters = {
-      {
-        Spawner    = { x = 0, y = 0, z = 0 },
-        SpawnPoint = { x = 0, y = 0, z = 0 },
-        Heading    = 0.0,
-      }
-    },
-
-    VehicleDeleters = {
-      { x = 2486.7216796875, y = 4959.291015625, z = 43.845527648926 },
-      
-    },
-
-    BossActions = {
-      { x = 2455.3745117188, y = 4977.3623046875, z = 50.564868927002 },
-    },
-
-  },
+	}
 
 }

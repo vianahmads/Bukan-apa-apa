@@ -1,14 +1,10 @@
-ESX                     = nil
-Items                   = {}
-local InventoriesIndex  = {}
-local Inventories       = {}
-local SharedInventories = {}
-
+Items = {}
+local InventoriesIndex, Inventories, SharedInventories = {}, {}, {}
+ESX = nil
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
-AddEventHandler('onMySQLReady', function()
-
+MySQL.ready(function()
 	local items = MySQL.Sync.fetchAll('SELECT * FROM items')
 
 	for i=1, #items, 1 do
@@ -18,17 +14,13 @@ AddEventHandler('onMySQLReady', function()
 	local result = MySQL.Sync.fetchAll('SELECT * FROM addon_inventory')
 
 	for i=1, #result, 1 do
-
 		local name   = result[i].name
 		local label  = result[i].label
 		local shared = result[i].shared
 
-		local result2 = MySQL.Sync.fetchAll(
-			'SELECT * FROM addon_inventory_items WHERE inventory_name = @inventory_name',
-			{
-				['@inventory_name'] = name
-			}
-		)
+		local result2 = MySQL.Sync.fetchAll('SELECT * FROM addon_inventory_items WHERE inventory_name = @inventory_name', {
+			['@inventory_name'] = name
+		})
 
 		if shared == 0 then
 
@@ -38,7 +30,6 @@ AddEventHandler('onMySQLReady', function()
 			local items       = {}
 
 			for j=1, #result2, 1 do
-
 				local itemName  = result2[j].name
 				local itemCount = result2[j].count
 				local itemOwner = result2[j].owner
@@ -52,7 +43,6 @@ AddEventHandler('onMySQLReady', function()
 					count = itemCount,
 					label = Items[itemName]
 				})
-
 			end
 
 			for k,v in pairs(items) do
@@ -61,7 +51,6 @@ AddEventHandler('onMySQLReady', function()
 			end
 
 		else
-
 			local items = {}
 
 			for j=1, #result2, 1 do
@@ -74,11 +63,8 @@ AddEventHandler('onMySQLReady', function()
 
 			local addonInventory    = CreateAddonInventory(name, nil, items)
 			SharedInventories[name] = addonInventory
-
 		end
-
 	end
-
 end)
 
 function GetInventory(name, owner)
@@ -101,25 +87,20 @@ AddEventHandler('esx_addoninventory:getSharedInventory', function(name, cb)
 	cb(GetSharedInventory(name))
 end)
 
-AddEventHandler('esx:playerLoaded', function(source)
-
-	local xPlayer          = ESX.GetPlayerFromId(source)
+AddEventHandler('esx:playerLoaded', function(playerId, xPlayer)
 	local addonInventories = {}
 
 	for i=1, #InventoriesIndex, 1 do
-
 		local name      = InventoriesIndex[i]
 		local inventory = GetInventory(name, xPlayer.identifier)
-		
+
 		if inventory == nil then
 			inventory = CreateAddonInventory(name, xPlayer.identifier, {})
 			table.insert(Inventories[name], inventory)
 		end
 
 		table.insert(addonInventories, inventory)
-
 	end
 
 	xPlayer.set('addonInventories', addonInventories)
-
 end)

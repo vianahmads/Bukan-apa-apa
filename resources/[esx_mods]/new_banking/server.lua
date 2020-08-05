@@ -11,13 +11,11 @@ AddEventHandler('bank:deposit', function(amount)
 	
 	local xPlayer = ESX.GetPlayerFromId(_source)
 	if amount == nil or amount <= 0 or amount > xPlayer.getMoney() then
-		-- advanced notification with bank icon
-		TriggerClientEvent('esx:showAdvancedNotification', _source, 'Maze Bank', 'Account Notification', 'Invalid amount.', 'CHAR_BANK_MAZE', 9)
+		TriggerClientEvent('bank:result', _source, "error", "Montant invalide.")
 	else
 		xPlayer.removeMoney(amount)
 		xPlayer.addAccountMoney('bank', tonumber(amount))
-                -- advanced notification with bank icon
-		TriggerClientEvent('esx:showAdvancedNotification', _source, 'Maze Bank', 'Account Notification', 'You have deposited: ~g~$' .. amount .. '~s~', 'CHAR_BANK_MAZE', 9)
+		TriggerClientEvent('bank:result', _source, "success", "Dépot effectué.")
 	end
 end)
 
@@ -30,13 +28,11 @@ AddEventHandler('bank:withdraw', function(amount)
 	amount = tonumber(amount)
 	base = xPlayer.getAccount('bank').money
 	if amount == nil or amount <= 0 or amount > base then
-                 -- advanced notification with bank icon
-		TriggerClientEvent('esx:showAdvancedNotification', _source, 'Maze Bank', 'Account Notification', 'Invalid amount.', 'CHAR_BANK_MAZE', 9)
+		TriggerClientEvent('bank:result', _source, "error", "Montant invalide.")
 	else
 		xPlayer.removeAccountMoney('bank', amount)
 		xPlayer.addMoney(amount)
-                 -- advanced notification with bank icon
-                TriggerClientEvent('esx:showAdvancedNotification', _source, 'Maze Bank', 'Account Notification', 'You have withdrawn: ~r~$' .. amount .. '~s~', 'CHAR_BANK_MAZE', 9)
+		TriggerClientEvent('bank:result', _source, "success", "Retrait effectué.")
 	end
 end)
 
@@ -46,7 +42,6 @@ AddEventHandler('bank:balance', function()
 	local xPlayer = ESX.GetPlayerFromId(_source)
 	balance = xPlayer.getAccount('bank').money
 	TriggerClientEvent('currentbalance1', _source, balance)
-	
 end)
 
 
@@ -56,24 +51,24 @@ AddEventHandler('bank:transfer', function(to, amountt)
 	local xPlayer = ESX.GetPlayerFromId(_source)
 	local zPlayer = ESX.GetPlayerFromId(to)
 	local balance = 0
-	balance = xPlayer.getAccount('bank').money
-	zbalance = zPlayer.getAccount('bank').money
-	
-	if tonumber(_source) == tonumber(to) then
-                -- advanced notification with bank icon
-		TriggerClientEvent('esx:showAdvancedNotification', _source, 'Maze Bank', 'Account Notification', 'You cannot transfer funds to yourself.', 'CHAR_BANK_MAZE', 9)
+
+	if(zPlayer == nil or zPlayer == -1) then
+		TriggerClientEvent('bank:result', _source, "error", "Destinataire introuvable.")
 	else
-		if balance <= 0 or balance < tonumber(amountt) or tonumber(amountt) <= 0 then
-                        -- advanced notification with bank icon
-			TriggerClientEvent('esx:showAdvancedNotification', _source, ' Maze Bank', 'Account Notification', 'Invalid amount.', 'CHAR_BANK_MAZE', 9)
-		else
-			xPlayer.removeAccountMoney('bank', amountt)
-			zPlayer.addAccountMoney('bank', amountt)
-                        -- advanced notification with bank icon
-                        TriggerClientEvent('esx:showAdvancedNotification', _source, 'Maze Bank', 'Account Notification', 'You have transfered ~r~$' .. amountt .. '~s~ to ~r~' .. to .. ' .', 'CHAR_BANK_MAZE', 9)
-			TriggerClientEvent('esx:showAdvancedNotification', to, 'Maze Bank', 'Account Notification', 'You have received: ~r~$' .. amountt .. '~s~ From ~r~' .. _source .. ' .', 'CHAR_BANK_MAZE', 9)
-		end
+		balance = xPlayer.getAccount('bank').money
+		zbalance = zPlayer.getAccount('bank').money
 		
+		if tonumber(_source) == tonumber(to) then
+			TriggerClientEvent('bank:result', _source, "error", "Vous ne pouvez pas faire de transfert à vous même.")
+		else
+			if balance <= 0 or balance < tonumber(amountt) or tonumber(amountt) <= 0 then
+				TriggerClientEvent('bank:result', _source, "error", "Vous n'avez pas assez d'argent en banque.")
+			else
+				xPlayer.removeAccountMoney('bank', tonumber(amountt))
+				zPlayer.addAccountMoney('bank', tonumber(amountt))
+				TriggerClientEvent('bank:result', _source, "success", "Transfert effectué.")
+			end
+		end
 	end
 end)
 

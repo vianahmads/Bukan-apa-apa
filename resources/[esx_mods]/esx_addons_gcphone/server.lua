@@ -1,6 +1,5 @@
-
-ESX                       = nil
-local PhoneNumbers        = {}
+ESX = nil
+local PhoneNumbers = {}
 
 -- PhoneNumbers = {
 --   ambulance = {
@@ -17,22 +16,15 @@ end)
 
 function notifyAlertSMS (number, alert, listSrc)
   if PhoneNumbers[number] ~= nil then
-  local mess = 'From #' .. alert.numero  .. ' : ' .. alert.message
-
+	local mess = 'De #' .. alert.numero  .. ' : ' .. alert.message
 	if alert.coords ~= nil then
-    --mess = mess .. ' GPS: ' .. alert.coords.x .. ', ' .. alert.coords.y 
-    mess = mess .. ''
-
+		mess = mess .. ' ' .. alert.coords.x .. ', ' .. alert.coords.y 
 	end
     for k, _ in pairs(listSrc) do
       getPhoneNumber(tonumber(k), function (n)
         if n ~= nil then
-          
-          TriggerEvent('gcPhone:_internalAddMessage', number, n, 'From #' .. alert.numero  .. ' : ' .. alert.message, 0, function (smsMess)
+          TriggerEvent('gcPhone:_internalAddMessage', number, n, mess, 0, function (smsMess)
             TriggerClientEvent("gcPhone:receiveMessage", tonumber(k), smsMess)
-            TriggerEvent('gcPhone:_internalAddMessage', number, n, 'GPS: ' .. alert.coords.x .. ', ' .. alert.coords.y, 0, function (smsMess)
-            TriggerClientEvent("gcPhone:receiveMessage", tonumber(k), smsMess)
-          end)
           end)
         end
       end)
@@ -41,17 +33,16 @@ function notifyAlertSMS (number, alert, listSrc)
 end
 
 AddEventHandler('esx_phone:registerNumber', function(number, type, sharePos, hasDispatch, hideNumber, hidePosIfAnon)
-  print('==== Enregistrement du telephone ' .. number .. ' => ' .. type)
+  print('= INFO = Enregistrement du telephone ' .. number .. ' => ' .. type)
 	local hideNumber    = hideNumber    or false
 	local hidePosIfAnon = hidePosIfAnon or false
 
-	PhoneNumbers[number] = {
-		type          = type,
+PhoneNumbers[number] = {
+    type          = type,
     sources       = {},
     alerts        = {}
-	}
+}
 end)
-
 
 AddEventHandler('esx:setJob', function(source, job, lastJob)
   if PhoneNumbers[lastJob.name] ~= nil then
@@ -96,13 +87,11 @@ AddEventHandler('esx_addons_gcphone:startCall', function (number, message, coord
       }, PhoneNumbers[number].sources)
     end)
   else
-    print('Appels sur un service non enregistre => numero : ' .. number)
+    print('= WARNING = Appels sur un service non enregistre => numero : ' .. number)
   end
 end)
 
-
 AddEventHandler('esx:playerLoaded', function(source)
-
   local xPlayer = ESX.GetPlayerFromId(source)
 
   MySQL.Async.fetchAll('SELECT * FROM users WHERE identifier = @identifier',{
@@ -116,9 +105,7 @@ AddEventHandler('esx:playerLoaded', function(source)
       TriggerEvent('esx_addons_gcphone:addSource', xPlayer.job.name, source)
     end
   end)
-
 end)
-
 
 AddEventHandler('esx:playerDropped', function(source)
   local source = source
@@ -127,7 +114,6 @@ AddEventHandler('esx:playerDropped', function(source)
     TriggerEvent('esx_addons_gcphone:removeSource', xPlayer.job.name, source)
   end
 end)
-
 
 function getPhoneNumber (source, callback) 
   local xPlayer = ESX.GetPlayerFromId(source)
@@ -140,8 +126,6 @@ function getPhoneNumber (source, callback)
     callback(result[1].phone_number)
   end)
 end
-
-
 
 RegisterServerEvent('esx_phone:send')
 AddEventHandler('esx_phone:send', function(number, message, _, coords)
