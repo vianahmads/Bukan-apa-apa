@@ -56,10 +56,6 @@ Config.CartelStations = {
 		  { name = 'felon',      label = 'Véhicule Civil' },
 	  },
 
-    Cloakrooms = {
-      { x = 2441.0107421875, y = 4973.1186523438, z = 50.564865112305},
-    },
-
     Armories = {
       { x = 2432.5991210938, y = 4971.0986328125, z = 41.347564697266},
     },

@@ -38,10 +38,6 @@ Config.SOAStations = {
       { name = 'daemon2',  label = 'Daemon' }
 	  },
 
-    Cloakrooms = {
-    { x = 986.94677734375, y = -92.968696594238, z = 73.84593963623 },
-    },
-
     Armories = {
       { x = 976.591, y = -103.577, z = 73.845 },
     },

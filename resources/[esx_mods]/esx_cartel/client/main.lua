@@ -48,196 +48,6 @@ function SetVehicleMaxMods(vehicle)
 
 end
 
-function OpenCloakroomMenu()
-
-  local elements = {
-    {label = _U('citizen_wear'), value = 'citizen_wear'},
-    {label = _U('cartel_wear'), value = 'cartel_wear'}
-  }
-
-  ESX.UI.Menu.CloseAll()
-
-  if Config.EnableNonFreemodePeds then
-      table.insert(elements, {label = _U('sheriff_wear'), value = 'sheriff_wear'})
-    table.insert(elements, {label = _U('lieutenant_wear'), value = 'lieutenant_wear'})
-    table.insert(elements, {label = _U('commandant_wear'), value = 'commandant_wear'})
-  end
-
-    ESX.UI.Menu.Open(
-      'default', GetCurrentResourceName(), 'cloakroom',
-      {
-        title    = _U('cloakroom'),
-        align    = 'right',
-        elements = elements,
-        },
-
-        function(data, menu)
-
-      menu.close()
-
-      --Taken from SuperCoolNinja
-      if data.current.value == 'citizen_wear' then
-        ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
-          local model = nil
-
-          if skin.sex == 0 then
-            model = GetHashKey("mp_m_freemode_01")
-          else
-            model = GetHashKey("mp_f_freemode_01")
-          end
-
-          RequestModel(model)
-          while not HasModelLoaded(model) do
-            RequestModel(model)
-            Citizen.Wait(1)
-          end
-
-          SetPlayerModel(PlayerId(), model)
-          SetModelAsNoLongerNeeded(model)
-
-          TriggerEvent('skinchanger:loadSkin', skin)
-          TriggerEvent('esx:restoreLoadout')
-        end)
-      end
-
-      if data.current.value == 'cartel_wear' then
-
-        ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
-          local model = nil
-
-          if skin.sex == 0 then
-            model = GetHashKey("mp_m_freemode_01")
-          else
-            model = GetHashKey("mp_f_freemode_01")
-          end
-
-          RequestModel(model)
-          while not HasModelLoaded(model) do
-            RequestModel(model)
-            Citizen.Wait(1)
-          end
-
-          SetPlayerModel(PlayerId(), model)
-          SetModelAsNoLongerNeeded(model)
-
-          TriggerEvent('skinchanger:loadSkin', skin)
-          TriggerEvent('esx:restoreLoadout')
-        end)
-      end
-
-
-      if data.current.value == 'cartel_wear' then
-
-        ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
-
-        if skin.sex == 0 then
-
-          local model = GetHashKey("s_m_y_sheriff_01")
-
-          RequestModel(model)
-          while not HasModelLoaded(model) do
-            RequestModel(model)
-            Citizen.Wait(0)
-          end
-
-          SetPlayerModel(PlayerId(), model)
-          SetModelAsNoLongerNeeded(model)
-      else
-          local model = GetHashKey("s_f_y_sheriff_01")
-
-          RequestModel(model)
-          while not HasModelLoaded(model) do
-            RequestModel(model)
-            Citizen.Wait(0)
-          end
-
-          SetPlayerModel(PlayerId(), model)
-          SetModelAsNoLongerNeeded(model)
-          end
-
-        end)
-      end
-
-      if data.current.value == 'lieutenant_wear' then
-
-        ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
-
-        if skin.sex == 0 then
-          local model = GetHashKey("s_m_y_swat_01")
-
-          RequestModel(model)
-          while not HasModelLoaded(model) do
-            RequestModel(model)
-            Citizen.Wait(0)
-          end
-
-          SetPlayerModel(PlayerId(), model)
-          SetModelAsNoLongerNeeded(model)
-      else
-          local model = GetHashKey("s_m_y_swat_01")
-
-          RequestModel(model)
-          while not HasModelLoaded(model) do
-            RequestModel(model)
-            Citizen.Wait(0)
-          end
-
-          SetPlayerModel(PlayerId(), model)
-          SetModelAsNoLongerNeeded(model)
-          end
-
-        end)
-      end
-
-      if data.current.value == 'commandant_wear' then
-
-        ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
-
-        if skin.sex == 0 then
-          local model = GetHashKey("s_m_y_swat_01")
-
-          RequestModel(model)
-          while not HasModelLoaded(model) do
-            RequestModel(model)
-            Citizen.Wait(0)
-          end
-
-          SetPlayerModel(PlayerId(), model)
-          SetModelAsNoLongerNeeded(model)
-      else
-          local model = GetHashKey("s_m_y_swat_01")
-
-          RequestModel(model)
-          while not HasModelLoaded(model) do
-            RequestModel(model)
-            Citizen.Wait(0)
-          end
-
-          SetPlayerModel(PlayerId(), model)
-          SetModelAsNoLongerNeeded(model)
-          end
-
-        end)
-      end
-
-
-      CurrentAction     = 'menu_cloakroom'
-      CurrentActionMsg  = _U('open_cloackroom')
-      CurrentActionData = {}
-
-    end,
-    function(data, menu)
-
-      menu.close()
-
-      CurrentAction     = 'menu_cloakroom'
-      CurrentActionMsg  = _U('open_cloackroom')
-      CurrentActionData = {}
-    end
-  )
-
-end
-
 function OpenArmoryMenu(station)
 
   if Config.EnableArmoryManagement then
@@ -277,12 +87,12 @@ function OpenArmoryMenu(station)
         end
 
         if data.current.value == 'put_stock' then
-              OpenPutStocksMenu()
-            end
+          OpenPutStocksMenu()
+        end
 
-            if data.current.value == 'get_stock' then
-              OpenGetStocksMenu()
-            end
+        if data.current.value == 'get_stock' then
+          OpenGetStocksMenu()
+        end
 
       end,
       function(data, menu)
@@ -1049,121 +859,92 @@ function OpenBuyWeaponsMenu(station)
 end
 
 function OpenGetStocksMenu()
+	ESX.TriggerServerCallback('esx_carteljob:getStockItems', function(items)
+		local elements = {}
 
-  ESX.TriggerServerCallback('esx_carteljob:getStockItems', function(items)
+		for i=1, #items, 1 do
+			table.insert(elements, {
+				label = 'x' .. items[i].count .. ' ' .. items[i].label,
+				value = items[i].name
+			})
+		end
 
-    print(json.encode(items))
+		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'stocks_menu', {
+			title    = _U('cartel_stock'),
+			align    = 'right',
+			elements = elements
+		}, function(data, menu)
+			local itemName = data.current.value
 
-    local elements = {}
+			ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'stocks_menu_get_item_count', {
+				title = _U('quantity')
+			}, function(data2, menu2)
+				local count = tonumber(data2.value)
 
-    for i=1, #items, 1 do
-      table.insert(elements, {label = 'x' .. items[i].count .. ' ' .. items[i].label, value = items[i].name})
-    end
+				if not count then
+					ESX.ShowNotification(_U('quantity_invalid'))
+				else
+					menu2.close()
+					menu.close()
+					TriggerServerEvent('esx_carteljob:getStockItem', itemName, count)
 
-    ESX.UI.Menu.Open(
-      'default', GetCurrentResourceName(), 'stocks_menu',
-      {
-        title    = _U('cartel_stock'),
-        elements = elements
-      },
-      function(data, menu)
-
-        local itemName = data.current.value
-
-        ESX.UI.Menu.Open(
-          'dialog', GetCurrentResourceName(), 'stocks_menu_get_item_count',
-          {
-            title = _U('quantity')
-          },
-          function(data2, menu2)
-
-            local count = tonumber(data2.value)
-
-            if count == nil then
-              ESX.ShowNotification(_U('quantity_invalid'))
-            else
-              menu2.close()
-              menu.close()
-              OpenGetStocksMenu()
-
-              TriggerServerEvent('esx_carteljob:getStockItem', itemName, count)
-            end
-
-          end,
-          function(data2, menu2)
-            menu2.close()
-          end
-        )
-
-      end,
-      function(data, menu)
-        menu.close()
-      end
-    )
-
-  end)
-
+					Citizen.Wait(300)
+					OpenGetStocksMenu()
+				end
+			end, function(data2, menu2)
+				menu2.close()
+			end)
+		end, function(data, menu)
+			menu.close()
+		end)
+	end)
 end
 
 function OpenPutStocksMenu()
+	ESX.TriggerServerCallback('esx_carteljob:getPlayerInventory', function(inventory)
+		local elements = {}
 
-  ESX.TriggerServerCallback('esx_carteljob:getPlayerInventory', function(inventory)
+		for i=1, #inventory.items, 1 do
+			local item = inventory.items[i]
 
-    local elements = {}
+			if item.count > 0 then
+				table.insert(elements, {
+					label = item.label .. ' x' .. item.count,
+					type = 'item_standard',
+					value = item.name
+				})
+			end
+		end
 
-    for i=1, #inventory.items, 1 do
+		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'stocks_menu', {
+			title    = _U('inventory'),
+			align    = 'right',
+			elements = elements
+		}, function(data, menu)
+			local itemName = data.current.value
 
-      local item = inventory.items[i]
+			ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'stocks_menu_put_item_count', {
+				title = _U('quantity')
+			}, function(data2, menu2)
+				local count = tonumber(data2.value)
 
-      if item.count > 0 then
-        table.insert(elements, {label = item.label .. ' x' .. item.count, type = 'item_standard', value = item.name})
-      end
+				if not count then
+					ESX.ShowNotification(_U('quantity_invalid'))
+				else
+					menu2.close()
+					menu.close()
+					TriggerServerEvent('esx_carteljob:putStockItems', itemName, count)
 
-    end
-
-    ESX.UI.Menu.Open(
-      'default', GetCurrentResourceName(), 'stocks_menu',
-      {
-        title    = _U('inventory'),
-        elements = elements
-      },
-      function(data, menu)
-
-        local itemName = data.current.value
-
-        ESX.UI.Menu.Open(
-          'dialog', GetCurrentResourceName(), 'stocks_menu_put_item_count',
-          {
-            title = _U('quantity')
-          },
-          function(data2, menu2)
-
-            local count = tonumber(data2.value)
-
-            if count == nil then
-              ESX.ShowNotification(_U('quantity_invalid'))
-            else
-              menu2.close()
-              menu.close()
-              OpenPutStocksMenu()
-
-              TriggerServerEvent('esx_carteljob:putStockItems', itemName, count)
-            end
-
-          end,
-          function(data2, menu2)
-            menu2.close()
-          end
-        )
-
-      end,
-      function(data, menu)
-        menu.close()
-      end
-    )
-
-  end)
-
+					Citizen.Wait(300)
+					OpenPutStocksMenu()
+				end
+			end, function(data2, menu2)
+				menu2.close()
+			end)
+		end, function(data, menu)
+			menu.close()
+		end)
+	end)
 end
 
 RegisterNetEvent('esx:playerLoaded')
@@ -1190,12 +971,6 @@ end)
 -- end)
 
 AddEventHandler('esx_carteljob:hasEnteredMarker', function(station, part, partNum)
-
-  if part == 'Cloakroom' then
-    CurrentAction     = 'menu_cloakroom'
-    CurrentActionMsg  = _U('open_cloackroom')
-    CurrentActionData = {}
-  end
 
   if part == 'Armory' then
     CurrentAction     = 'menu_armory'
@@ -1480,12 +1255,6 @@ Citizen.CreateThread(function()
 
       for k,v in pairs(Config.CartelStations) do
 
-        for i=1, #v.Cloakrooms, 1 do
-          if GetDistanceBetweenCoords(coords,  v.Cloakrooms[i].x,  v.Cloakrooms[i].y,  v.Cloakrooms[i].z,  true) < Config.DrawDistance then
-            DrawMarker(Config.MarkerType, v.Cloakrooms[i].x, v.Cloakrooms[i].y, v.Cloakrooms[i].z, 0.0, 0.0, 0.0, 0, 0.0, 0.0, Config.MarkerSize.x, Config.MarkerSize.y, Config.MarkerSize.z, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, false, false, false, false)
-          end
-        end
-
         for i=1, #v.Armories, 1 do
           if GetDistanceBetweenCoords(coords,  v.Armories[i].x,  v.Armories[i].y,  v.Armories[i].z,  true) < Config.DrawDistance then
             DrawMarker(Config.MarkerType, v.Armories[i].x, v.Armories[i].y, v.Armories[i].z, 0.0, 0.0, 0.0, 0, 0.0, 0.0, Config.MarkerSize.x, Config.MarkerSize.y, Config.MarkerSize.z, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, false, false, false, false)
@@ -1538,15 +1307,6 @@ Citizen.CreateThread(function()
       local currentPartNum = nil
 
       for k,v in pairs(Config.CartelStations) do
-
-        for i=1, #v.Cloakrooms, 1 do
-          if GetDistanceBetweenCoords(coords,  v.Cloakrooms[i].x,  v.Cloakrooms[i].y,  v.Cloakrooms[i].z,  true) < Config.MarkerSize.x then
-            isInMarker     = true
-            currentStation = k
-            currentPart    = 'Cloakroom'
-            currentPartNum = i
-          end
-        end
 
         for i=1, #v.Armories, 1 do
           if GetDistanceBetweenCoords(coords,  v.Armories[i].x,  v.Armories[i].y,  v.Armories[i].z,  true) < Config.MarkerSize.x then
@@ -1720,10 +1480,6 @@ Citizen.CreateThread(function()
       DisplayHelpTextFromStringLabel(0, 0, 1, -1)
 
       if IsControlPressed(0,  Keys['E']) and PlayerData.job ~= nil and PlayerData.job.name == 'cartel' and (GetGameTimer() - GUI.Time) > 150 then
-
-        if CurrentAction == 'menu_cloakroom' then
-          OpenCloakroomMenu()
-        end
 
         if CurrentAction == 'menu_armory' then
           OpenArmoryMenu(CurrentActionData.station)

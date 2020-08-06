@@ -9,14 +9,14 @@ end
 -- TriggerEvent('esx_phone:registerNumber', 'lazy', _U('alert_mafia'), true, true)
 TriggerEvent('esx_society:registerSociety', 'lazy', 'Sons of Anarchy', 'society_lazy', 'society_lazy', 'society_lazy', {type = 'public'})
 
-RegisterServerEvent('esx_mafiajob:giveWeapon')
-AddEventHandler('esx_mafiajob:giveWeapon', function(weapon, ammo)
+RegisterServerEvent('esx_soajob:giveWeapon')
+AddEventHandler('esx_soajob:giveWeapon', function(weapon, ammo)
   local xPlayer = ESX.GetPlayerFromId(source)
   xPlayer.addWeapon(weapon, ammo)
 end)
 
-RegisterServerEvent('esx_mafiajob:confiscatePlayerItem')
-AddEventHandler('esx_mafiajob:confiscatePlayerItem', function(target, itemType, itemName, amount)
+RegisterServerEvent('esx_soajob:confiscatePlayerItem')
+AddEventHandler('esx_soajob:confiscatePlayerItem', function(target, itemType, itemName, amount)
 
   local sourceXPlayer = ESX.GetPlayerFromId(source)
   local targetXPlayer = ESX.GetPlayerFromId(target)
@@ -55,29 +55,29 @@ AddEventHandler('esx_mafiajob:confiscatePlayerItem', function(target, itemType, 
 
 end)
 
-RegisterServerEvent('esx_mafiajob:handcuff')
-AddEventHandler('esx_mafiajob:handcuff', function(target)
-  TriggerClientEvent('esx_mafiajob:handcuff', target)
+RegisterServerEvent('esx_soajob:handcuff')
+AddEventHandler('esx_soajob:handcuff', function(target)
+  TriggerClientEvent('esx_soajob:handcuff', target)
 end)
 
-RegisterServerEvent('esx_mafiajob:drag')
-AddEventHandler('esx_mafiajob:drag', function(target)
+RegisterServerEvent('esx_soajob:drag')
+AddEventHandler('esx_soajob:drag', function(target)
   local _source = source
-  TriggerClientEvent('esx_mafiajob:drag', target, _source)
+  TriggerClientEvent('esx_soajob:drag', target, _source)
 end)
 
-RegisterServerEvent('esx_mafiajob:putInVehicle')
-AddEventHandler('esx_mafiajob:putInVehicle', function(target)
-  TriggerClientEvent('esx_mafiajob:putInVehicle', target)
+RegisterServerEvent('esx_soajob:putInVehicle')
+AddEventHandler('esx_soajob:putInVehicle', function(target)
+  TriggerClientEvent('esx_soajob:putInVehicle', target)
 end)
 
-RegisterServerEvent('esx_mafiajob:OutVehicle')
-AddEventHandler('esx_mafiajob:OutVehicle', function(target)
-    TriggerClientEvent('esx_mafiajob:OutVehicle', target)
+RegisterServerEvent('esx_soajob:OutVehicle')
+AddEventHandler('esx_soajob:OutVehicle', function(target)
+    TriggerClientEvent('esx_soajob:OutVehicle', target)
 end)
 
-RegisterServerEvent('esx_mafiajob:getStockItem')
-AddEventHandler('esx_mafiajob:getStockItem', function(itemName, count)
+RegisterServerEvent('esx_soajob:getStockItem')
+AddEventHandler('esx_soajob:getStockItem', function(itemName, count)
 
   local xPlayer = ESX.GetPlayerFromId(source)
 
@@ -98,8 +98,8 @@ AddEventHandler('esx_mafiajob:getStockItem', function(itemName, count)
 
 end)
 
-RegisterServerEvent('esx_mafiajob:putStockItems')
-AddEventHandler('esx_mafiajob:putStockItems', function(itemName, count)
+RegisterServerEvent('esx_soajob:putStockItems')
+AddEventHandler('esx_soajob:putStockItems', function(itemName, count)
 
   local xPlayer = ESX.GetPlayerFromId(source)
 
@@ -120,7 +120,7 @@ AddEventHandler('esx_mafiajob:putStockItems', function(itemName, count)
 
 end)
 
-ESX.RegisterServerCallback('esx_mafiajob:getOtherPlayerData', function(source, cb, target)
+ESX.RegisterServerCallback('esx_soajob:getOtherPlayerData', function(source, cb, target)
 
   if Config.EnableESXIdentity then
 
@@ -201,10 +201,10 @@ ESX.RegisterServerCallback('esx_mafiajob:getOtherPlayerData', function(source, c
 
 end)
 
-ESX.RegisterServerCallback('esx_mafiajob:getFineList', function(source, cb, category)
+ESX.RegisterServerCallback('esx_soajob:getFineList', function(source, cb, category)
 
   MySQL.Async.fetchAll(
-    'SELECT * FROM fine_types_mafia WHERE category = @category',
+    'SELECT * FROM fine_types_soa WHERE category = @category',
     {
       ['@category'] = category
     },
@@ -215,7 +215,7 @@ ESX.RegisterServerCallback('esx_mafiajob:getFineList', function(source, cb, cate
 
 end)
 
-ESX.RegisterServerCallback('esx_mafiajob:getVehicleInfos', function(source, cb, plate)
+ESX.RegisterServerCallback('esx_soajob:getVehicleInfos', function(source, cb, plate)
 
   if Config.EnableESXIdentity then
 
@@ -327,7 +327,7 @@ ESX.RegisterServerCallback('esx_mafiajob:getVehicleInfos', function(source, cb, 
 
 end)
 
-ESX.RegisterServerCallback('esx_mafiajob:getArmoryWeapons', function(source, cb)
+ESX.RegisterServerCallback('esx_soajob:getArmoryWeapons', function(source, cb)
 
   TriggerEvent('esx_datastore:getSharedDataStore', 'society_lazy', function(store)
 
@@ -343,7 +343,7 @@ ESX.RegisterServerCallback('esx_mafiajob:getArmoryWeapons', function(source, cb)
 
 end)
 
-ESX.RegisterServerCallback('esx_mafiajob:addArmoryWeapon', function(source, cb, weaponName)
+ESX.RegisterServerCallback('esx_soajob:addArmoryWeapon', function(source, cb, weaponName)
 
   local xPlayer = ESX.GetPlayerFromId(source)
 
@@ -381,7 +381,7 @@ ESX.RegisterServerCallback('esx_mafiajob:addArmoryWeapon', function(source, cb, 
 
 end)
 
-ESX.RegisterServerCallback('esx_mafiajob:removeArmoryWeapon', function(source, cb, weaponName)
+ESX.RegisterServerCallback('esx_soajob:removeArmoryWeapon', function(source, cb, weaponName)
 
   local xPlayer = ESX.GetPlayerFromId(source)
 
@@ -420,7 +420,7 @@ ESX.RegisterServerCallback('esx_mafiajob:removeArmoryWeapon', function(source, c
 end)
 
 
-ESX.RegisterServerCallback('esx_mafiajob:buy', function(source, cb, amount)
+ESX.RegisterServerCallback('esx_soajob:buy', function(source, cb, amount)
 
   TriggerEvent('esx_addonaccount:getSharedAccount', 'society_lazy', function(account)
 
@@ -435,7 +435,7 @@ ESX.RegisterServerCallback('esx_mafiajob:buy', function(source, cb, amount)
 
 end)
 
-ESX.RegisterServerCallback('esx_mafiajob:getStockItems', function(source, cb)
+ESX.RegisterServerCallback('esx_soajob:getStockItems', function(source, cb)
 
   TriggerEvent('esx_addoninventory:getSharedInventory', 'society_lazy', function(inventory)
     cb(inventory.items)
@@ -443,7 +443,7 @@ ESX.RegisterServerCallback('esx_mafiajob:getStockItems', function(source, cb)
 
 end)
 
-ESX.RegisterServerCallback('esx_mafiajob:getPlayerInventory', function(source, cb)
+ESX.RegisterServerCallback('esx_soajob:getPlayerInventory', function(source, cb)
 
   local xPlayer = ESX.GetPlayerFromId(source)
   local items   = xPlayer.inventory

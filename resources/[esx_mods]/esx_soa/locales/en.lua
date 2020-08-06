@@ -1,15 +1,13 @@
 Locales['en'] = {
-  -- Cloackroom
-  ['cloakroom'] = 'locker room',
-  ['citizen_wear'] = 'civilian Outfit',
-  ['mafia_wear'] = 'Mafia Outfit',
-  ['open_cloackroom'] = 'press ~INPUT_CONTEXT~ to change',
   -- Armory
   ['get_weapon'] = 'get Weapon',
   ['put_weapon'] = 'put Weapon',
   ['buy_weapons'] = 'buy Weapons',
   ['armory'] = 'armory',
   ['open_armory'] = 'press ~INPUT_CONTEXT~ to access the armory',
+  ['ambil_item'] = 'ambil item',
+  ['taruh_item'] = 'taruh item',
+
   -- Vehicles
   ['vehicle_menu'] = 'vehicle',
   ['vehicle_out'] = 'there is already a car out of the garage',
