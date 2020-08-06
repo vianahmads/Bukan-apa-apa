@@ -81,7 +81,6 @@ function OpenBossMenu(society, close, options)
 			local defaultOptions = {
 				withdraw = true,
 				deposit = true,
-				wash = true,
 				employees = true,
 				grades = true
 			}
@@ -98,10 +97,6 @@ function OpenBossMenu(society, close, options)
 
 			if options.deposit then
 				table.insert(elements, {label = _U('deposit_society_money'), value = 'deposit_money'})
-			end
-
-			if options.wash then
-				table.insert(elements, {label = _U('wash_money'), value = 'wash_money'})
 			end
 
 			if options.employees then
@@ -143,21 +138,6 @@ function OpenBossMenu(society, close, options)
 						else
 							menu2.close()
 							TriggerServerEvent('esx_society:depositMoney', society, amount)
-						end
-					end, function(data2, menu2)
-						menu2.close()
-					end)
-				elseif data.current.value == 'wash_money' then
-					ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'wash_money_amount_' .. society, {
-						title = _U('wash_money_amount')
-					}, function(data2, menu2)
-						local amount = tonumber(data2.value)
-
-						if amount == nil then
-							ESX.ShowNotification(_U('invalid_amount'))
-						else
-							menu2.close()
-							TriggerServerEvent('esx_society:washMoney', society, amount)
 						end
 					end, function(data2, menu2)
 						menu2.close()

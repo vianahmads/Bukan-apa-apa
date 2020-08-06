@@ -101,31 +101,6 @@ AddEventHandler('esx_society:depositMoney', function(societyName, amount)
 	end
 end)
 
-RegisterServerEvent('esx_society:washMoney')
-AddEventHandler('esx_society:washMoney', function(society, amount)
-	local xPlayer = ESX.GetPlayerFromId(source)
-	local account = xPlayer.getAccount('black_money')
-	amount = ESX.Math.Round(tonumber(amount))
-
-	if xPlayer.job.name == society then
-		if amount and amount > 0 and account.money >= amount then
-			xPlayer.removeAccountMoney('black_money', amount)
-
-			MySQL.Async.execute('INSERT INTO society_moneywash (identifier, society, amount) VALUES (@identifier, @society, @amount)', {
-				['@identifier'] = xPlayer.identifier,
-				['@society'] = society,
-				['@amount'] = amount
-			}, function(rowsChanged)
-				xPlayer.showNotification(_U('you_have', ESX.Math.GroupDigits(amount)))
-			end)
-		else
-			xPlayer.showNotification(_U('invalid_amount'))
-		end
-	else
-		print(('esx_society: %s attempted to call washMoney!'):format(xPlayer.identifier))
-	end
-end)
-
 RegisterServerEvent('esx_society:putVehicleInGarage')
 AddEventHandler('esx_society:putVehicleInGarage', function(societyName, vehicle)
 	local society = GetSociety(societyName)
@@ -340,28 +315,3 @@ function isPlayerBoss(playerId, job)
 		return false
 	end
 end
-
-function WashMoneyCRON(d, h, m)
-	MySQL.Async.fetchAll('SELECT * FROM society_moneywash', {}, function(result)
-		for i=1, #result, 1 do
-			local society = GetSociety(result[i].society)
-			local xPlayer = ESX.GetPlayerFromIdentifier(result[i].identifier)
-
-			-- add society money
-			TriggerEvent('esx_addonaccount:getSharedAccount', society.account, function(account)
-				account.addMoney(result[i].amount)
-			end)
-
-			-- send notification if player is online
-			if xPlayer then
-				xPlayer.showNotification(_U('you_have_laundered', ESX.Math.GroupDigits(result[i].amount)))
-			end
-
-			MySQL.Async.execute('DELETE FROM society_moneywash WHERE id = @id', {
-				['@id'] = result[i].id
-			})
-		end
-	end)
-end
-
-TriggerEvent('cron:runAt', 3, 0, WashMoneyCRON)
