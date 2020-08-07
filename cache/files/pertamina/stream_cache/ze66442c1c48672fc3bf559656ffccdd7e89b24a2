@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package version="2.0" id="{189D06C7-988D-45D8-B9A7-F52B1D273B90}" target="Five">
+<metadata>
+<name>Pertamina Indonesian Gas Station</name>
+<version>
+<major>0</major>
+<minor>4</minor>
+<tag>Beta</tag>
+</version>
+<author>
+<displayName>RHGaming7</displayName>
+<facebook>rhrendy7</facebook>
+</author>
+<description><![CDATA[Installer - PLEASE INSTALL IN "MODS" FOLDER!
+Mod Pom Bensin Pertamina Ini Sudah tersedia hampir diseluruh map digta v.]]></description>
+<licence><![CDATA[Free & Don't Re-upload!
+Jangan dire-upload!.
+kalo mau edit isinya ,tolong izin dulu ke saya ya!]]></licence>
+</metadata>
+<colors>
+<headerBackground useBlackTextColor="False">$FF000000</headerBackground>
+<iconBackground>$FFFFFFFF</iconBackground>
+</colors>
+<content>
+<archive path="x64l.rpf" createIfNotExist="True" type="RPF7">
+<archive path="\levels\gta5\_cityw\beverly_01\bh1_33.rpf" createIfNotExist="True" type="RPF7">
+<add source="093a44ea-ba7c-4c9b-91f0-ca0bf109a76a\bh1_33_bulid02.ydr">bh1_33_bulid02.ydr</add>
+<add source="672e5088-8cd8-4702-96d3-2e8494f6112c\bh1_33_bulid02+hidr.ytd">bh1_33_bulid02+hidr.ytd</add>
+<add source="831906ba-01ad-4cfd-a571-ffd7c43c9fb9\bh1_33_gas_neon.ydr">bh1_33_gas_neon.ydr</add>
+<add source="dbc8f54f-739a-45c5-924c-d72feadf59bc\bh1_33_lod.ytd">bh1_33_lod.ytd</add>
+<add source="57d6d2f5-875a-480c-b578-e17738d8a8cb\bh1_33+hi.ytd">bh1_33+hi.ytd</add>
+</archive>
+</archive>
+<archive path="x64p.rpf" createIfNotExist="True" type="RPF7">
+<archive path="\levels\gta5\_hills\cityhills_03\ch3_03.rpf" createIfNotExist="True" type="RPF7">
+<add source="417dea07-3436-42d8-9c32-edabd3126192\ch3_03_new_gasroof.ydr">ch3_03_new_gasroof.ydr</add>
+<add source="c3194713-0928-4b02-8606-26bbd45c2869\ch3_03_new_gassign.ydr">ch3_03_new_gassign.ydr</add>
+</archive>
+</archive>
+<archive path="x64r.rpf" createIfNotExist="True" type="RPF7">
+<archive path="\levels\gta5\_hills\country_03\cs2_11.rpf" createIfNotExist="True" type="RPF7">
+<add source="9ccd4cf4-1a5c-4516-a263-800bf799fc74\cs2_11_gasstation_a.ydr">cs2_11_gasstation_a.ydr</add>
+<add source="e6ca277f-a3ca-48b7-8fe9-60c7ee84cf37\cs2_11_gasstation_b.ydr">cs2_11_gasstation_b.ydr</add>
+</archive>
+</archive>
+<archive path="x64j.rpf" createIfNotExist="True" type="RPF7">
+<archive path="\levels\gta5\_citye\indust_02\id2_13.rpf" createIfNotExist="True" type="RPF7">
+<add source="71d6fb82-5f87-4a87-b55f-7e85eba9646a\id2_13_gas_02.ydr">id2_13_gas_02.ydr</add>
+</archive>
+</archive>
+<archive path="x64j.rpf" createIfNotExist="True" type="RPF7">
+<archive path="\levels\gta5\_citye\indust_02\id2_21.rpf" createIfNotExist="True" type="RPF7">
+<add source="03175023-f1be-4cdc-801d-7d3c29713e29\id2_21_b.ytd">id2_21_b.ytd</add>
+<add source="9305effc-f098-43e0-af9f-d0c9dcff081d\id2_21_b_build01.ydr">id2_21_b_build01.ydr</add>
+</archive>
+</archive>
+<archive path="x64l.rpf" createIfNotExist="True" type="RPF7">
+<archive path="\levels\gta5\_cityw\koreatown_01\kt1_11.rpf" createIfNotExist="True" type="RPF7">
+<add source="1151b747-fd84-400c-8e65-439a3bd40eb0\kt1_11_gas.ydr">kt1_11_gas.ydr</add>
+</archive>
+</archive>
+<archive path="x64h.rpf" createIfNotExist="True" type="RPF7">
+<archive path="\levels\gta5\props\roadside\v_utility.rpf" createIfNotExist="True" type="RPF7">
+<add source="6c7fe8d6-a53e-4aeb-b995-328ebb241e27\prop_gas_pump_1a.yft">prop_gas_pump_1a.yft</add>
+<add source="ee85d28e-c6cf-4ff1-8b49-e18308818b0a\prop_gas_pump_1b.yft">prop_gas_pump_1b.yft</add>
+<add source="99fadd92-40e3-4bca-ad8b-ceaa108db14f\prop_gas_pump_1c.yft">prop_gas_pump_1c.yft</add>
+<add source="7a5c4cfc-fe0a-4946-9cdc-cfd8d08fcad4\prop_gas_pump_1d.yft">prop_gas_pump_1d.yft</add>
+</archive>
+</archive>
+<archive path="x64k.rpf" createIfNotExist="True" type="RPF7">
+<archive path="\levels\gta5\_citye\scentral_01\sc1_09.rpf" createIfNotExist="True" type="RPF7">
+<add source="778cbf74-2b5b-419c-a4f1-1690714b4927\sc1_09_gasem.ydr">sc1_09_gasem.ydr</add>
+</archive>
+</archive>
+<archive path="x64k.rpf" createIfNotExist="True" type="RPF7">
+<archive path="\levels\gta5\_citye\scentral_01\sc1_13.rpf" createIfNotExist="True" type="RPF7">
+<add source="764804c6-de18-4b77-8a4c-40d99ce7685a\sc1_13_build.ytd">sc1_13_build.ytd</add>
+<add source="7f2fbe32-cc0c-4a4c-97e1-f9b98b7fb2c5\sc1_13_build04.ydr">sc1_13_build04.ydr</add>
+<add source="7a393de5-07c1-4506-a5a3-c57c7ef4357a\sc1_13_build04_em1.ydr">sc1_13_build04_em1.ydr</add>
+<add source="4215acb1-1997-4c15-9b2f-9f3b294c0062\sc1_13_build04_em1+hidr.ytd">sc1_13_build04_em1+hidr.ytd</add>
+<add source="e8067075-1080-4cc8-968d-6b80ca138975\sc1_13_build04+hidr.ytd">sc1_13_build04+hidr.ytd</add>
+</archive>
+</archive>
+<archive path="x64k.rpf" createIfNotExist="True" type="RPF7">
+<archive path="\levels\gta5\_citye\scentral_01\sc1_21.rpf" createIfNotExist="True" type="RPF7">
+<add source="b4e561f2-7513-4f5a-a2e4-5ba1bfc42b99\sc1_21_gas.ydr">sc1_21_gas.ydr</add>
+</archive>
+</archive>
+<archive path="x64m.rpf" createIfNotExist="True" type="RPF7">
+<archive path="\levels\gta5\_cityw\santamon_01\sm_26.rpf" createIfNotExist="True" type="RPF7">
+<add source="c00fad18-4300-49a7-aaf0-6766ab4067db\sm_26_gas.ydr">sm_26_gas.ydr</add>
+</archive>
+</archive>
+<archive path="x64l.rpf" createIfNotExist="True" type="RPF7">
+<archive path="\levels\gta5\_cityw\koreatown_01\kt1_16.rpf" createIfNotExist="True" type="RPF7">
+<add source="kt1_16\kt1_16_petrol.ydr">kt1_16_petrol.ydr</add>
+</archive>
+</archive>
+<archive path="x64o.rpf" createIfNotExist="True" type="RPF7">
+<archive path="\levels\gta5\_hills\cityhills_02\ch2_04.rpf" createIfNotExist="True" type="RPF7">
+<add source="cs2_04\ch2_04_pstat.ydr">ch2_04_pstat.ydr</add>
+</archive>
+</archive>
+</content>
+</package>

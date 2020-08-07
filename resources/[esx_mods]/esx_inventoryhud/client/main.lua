@@ -41,6 +41,10 @@ Citizen.CreateThread(
     end
 )
 
+RegisterCommand("tas", function()
+   openInventory()
+end)
+
 function openInventory()
     ESX.UI.Menu.CloseAll()-- this also closes any esx menus to prevent from society inventory duping
     if canOpenInventory then -- checks if inventory is being searched (can be opened)

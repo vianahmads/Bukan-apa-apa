@@ -33,66 +33,65 @@ Citizen.CreateThread(function()
 	end
 end)
 
-RegisterCommand("id", function()
-	if open then
-		SendNUIMessage({
-			action = "close"
-		})
-		open = false
-	else
-		openMenu()
-		open = true
-	end
-end, false)
+RegisterCommand("lihatktp", function()
+   cekKTP()
+end)
 
-function openMenu()
-	ESX.UI.Menu.Open(
-	  'default', GetCurrentResourceName(), 'id_card_menu',
-	  {
-		  title    = 'ID menu',
-		  align 	= "right",
-		  elements = {
-			  {label = 'Check your ID', value = 'checkID'},
-			  {label = 'Show your ID', value = 'showID'},
-			  {label = 'Check your driver license', value = 'checkDriver'},
-			  {label = 'Show your driver license', value = 'showDriver'},
-			  {label = 'Check your firearms license', value = 'checkFirearms'},
-			  {label = 'Show your firearms license', value = 'showFirearms'},
-		  }
-	  },
-	  function(data, menu)
-		  local val = data.current.value
-		  
-		  if val == 'checkID' then
-			menu.close()
-			TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()))
-		  elseif val == 'checkDriver' then
-			menu.close()
-			TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), 'driver')
-		  elseif val == 'checkFirearms' then
-			menu.close()
-			TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), 'weapon')
-		  else
-			
-			local player, distance = ESX.Game.GetClosestPlayer()
-			  
-			  if distance ~= -1 and distance <= 1.5 then
-				  if val == 'showID' then
-					menu.close()
-					  TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(player))
-				elseif val == 'showDriver' then
-					menu.close()
-					TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), 'driver')
-				elseif val == 'showFirearms' then
-					menu.close()
-					TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), 'weapon')
-				end
-			else
-				ESX.ShowNotification('No players nearby')
-			end
-		end
-	end,
-	function(data, menu)
-		menu.close()
-	end)
+function cekKTP()
+	TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()))
+end
+
+RegisterCommand("lihatsim", function()
+   cekSIM()
+end)
+
+function cekSIM()
+	TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), 'driver')
+end
+
+RegisterCommand("lihatlisensi", function()
+   cekLISENSI()
+end)
+
+function cekLISENSI()
+	TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), 'weapon')
+end
+
+RegisterCommand("menunjukkanktp", function()
+   menunjukkanKTP()
+end)
+
+function menunjukkanKTP()
+	local player, distance = ESX.Game.GetClosestPlayer()
+	if distance ~= -1 and distance <= 1.5 then
+		TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(player))
+	else
+		ESX.ShowNotification('No players nearby')
+	end
+end
+
+RegisterCommand("menunjukkansim", function()
+   menunjukkanSIM()
+end)
+
+function menunjukkanSIM()
+	local player, distance = ESX.Game.GetClosestPlayer()
+	if distance ~= -1 and distance <= 1.5 then
+		TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), 'driver')
+	else
+		ESX.ShowNotification('No players nearby')
+	end
+end
+
+RegisterCommand("menunjukkanlisensi", function()
+   menunjukkanLISENSI()
+end)
+
+function menunjukkanLISENSI()
+	local player, distance = ESX.Game.GetClosestPlayer()
+	if distance ~= -1 and distance <= 1.5 then
+		TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(player), 'weapon')
+	else
+		ESX.ShowNotification('No players nearby')
+	end
 end

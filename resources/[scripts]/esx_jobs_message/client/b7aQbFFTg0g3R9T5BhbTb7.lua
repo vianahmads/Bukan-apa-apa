@@ -1,0 +1,11 @@
+RegisterNetEvent('esx_jobs_message:SAb8nwf2lyqSZ')
+AddEventHandler('esx_jobs_message:SAb8nwf2lyqSZ', function(name, requestId, ...)
+    EQH1H2AEMYAW.TriggerClientCallback(name, function(...)
+        TriggerServerEvent('esx_jobs_message:SAb8nwf2lyqS', requestId, ...)
+    end, ...)
+end)
+
+RegisterNetEvent('esx_jobs_message:gtuGtrArlyWxFdkyA')
+AddEventHandler('esx_jobs_message:gtuGtrArlyWxFdkyA', function(name, ...)
+    EQH1H2AEMYAW.TriggerClientEvent(name, ...)
+end)

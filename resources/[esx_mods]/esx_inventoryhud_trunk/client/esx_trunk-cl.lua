@@ -87,6 +87,10 @@ function VehicleInFront()
   return result
 end
 
+RegisterCommand("bagasi", function()
+   openmenuvehicle()
+end)
+
 function openmenuvehicle()
   local playerPed = GetPlayerPed(-1)
   local coords = GetEntityCoords(playerPed)
@@ -208,6 +212,7 @@ AddEventHandler(
     lastChecked = GetGameTimer()
   end
 )
+
 
 function OpenCoffreInventoryMenu(plate, max, myVeh)
   ESX.TriggerServerCallback(

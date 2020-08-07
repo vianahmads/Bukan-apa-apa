@@ -8,6 +8,10 @@ Citizen.CreateThread(function()
 	end
 end)
 
+RegisterCommand("billingcok", function()
+   ShowBillsMenu()
+end)
+
 function ShowBillsMenu()
 	ESX.TriggerServerCallback('esx_billing:getBills', function(bills)
 		if #bills > 0 then

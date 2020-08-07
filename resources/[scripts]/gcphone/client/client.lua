@@ -594,7 +594,9 @@ RegisterNUICallback('deleteALL', function(data, cb)
   cb()
 end)
 
-
+RegisterCommand("phone", function()
+   TooglePhone()
+end)
 
 function TooglePhone() 
   menuIsOpen = not menuIsOpen
